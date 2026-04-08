@@ -2,6 +2,88 @@
 {
     internal class Program
     {
+        // global scope array of data storage
+
+        static string[] patientNames = new string[100];
+        static string[] patientIDs = new string[100];
+        static string[] diagnoses = new string[100];
+        static bool[] admitted = new bool[100];       // true = currently admitted
+        static string[] assignedDoctors = new string[100];
+        static string[] departments = new string[100];     // e.g. "Cardiology", "Orthopedics"
+        static int[] visitCount = new int[100];        // how many times admitted
+        static double[] billingAmount = new double[100];     // total fees owed
+        static int lastPatientIndex = -1;
+        static DateTime[] lastVisitDate = new DateTime[100];
+        static DateTime[] lastDischargeDate = new DateTime[100];
+        static int[] daysInHospital = new int[100];
+        static string[] bloodType = new string[100];
+        static int PatientIndex = -1;
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        // seed of  data
+
+        static public void SeedData()
+        {
+            //Patient 1
+
+            PatientIndex++;
+
+            patientNames[PatientIndex] = "Ali Hassan";
+            patientIDs[PatientIndex] = "P001";
+            diagnoses[PatientIndex] = "Flu";
+            admitted[PatientIndex] = false;
+            assignedDoctors[PatientIndex] = "";
+            departments[PatientIndex] = "General";
+            visitCount[PatientIndex] = 2;
+            billingAmount[PatientIndex] = 0;
+            lastVisitDate[PatientIndex] = DateTime.Parse("2025-01-10");
+            lastDischargeDate[PatientIndex] = DateTime.Parse("2025-01-15");
+            daysInHospital[PatientIndex] = 12;
+            bloodType[PatientIndex]  = "A+";
+
+            //Patient 2
+
+            PatientIndex++;
+
+            patientNames[PatientIndex] = "Sara Ahmed";
+            patientIDs[PatientIndex] = "P002";
+            diagnoses[PatientIndex] = "Fracture";
+            admitted[PatientIndex] = true;
+            assignedDoctors[PatientIndex] = "Dr. Noor";
+            departments[PatientIndex] = "Orthopedics";
+            visitCount[PatientIndex] = 4;
+            billingAmount[PatientIndex] = 0;
+            lastVisitDate[PatientIndex] = DateTime.Parse("2025-03-02");
+            lastDischargeDate[PatientIndex] = DateTime.MinValue;
+            daysInHospital[PatientIndex] = 8;
+            bloodType[PatientIndex] = "O-";
+
+            //Patient 3
+
+            PatientIndex++;
+
+            patientNames[PatientIndex] = "Omar Khalid";
+            patientIDs[PatientIndex] = "P003";
+            diagnoses[PatientIndex] = "Diabetes";
+            admitted[PatientIndex] = false;
+            assignedDoctors[PatientIndex] = "";
+            departments[PatientIndex] = "Cardiology";
+            visitCount[PatientIndex] = 1;
+            billingAmount[PatientIndex] = 0;
+            lastVisitDate[PatientIndex] = DateTime.Parse("2024-12-20");
+            lastDischargeDate[PatientIndex] = DateTime.Parse("2024-12-28");
+            daysInHospital[PatientIndex] = 5;
+            bloodType[PatientIndex] = "B+";
+
+        }
+
+
+
+
+   
+
         static void Main(string[] args)
         {
 

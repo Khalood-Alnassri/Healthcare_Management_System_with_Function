@@ -79,14 +79,60 @@
 
         }
 
+        static public void DisplayMenu()
+        {
+            Console.WriteLine("==========================================");
+            Console.WriteLine("===== Healthcare Management System =====");
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine("1. Register New Patient.");
+            Console.WriteLine("2. Admit Patient.");
+            Console.WriteLine("3. Discharge Patient.");
+            Console.WriteLine("4. Search Patient.");
+            Console.WriteLine("5. List All dmitted Patients.");
+            Console.WriteLine("6. Transfer Patient to Another Doctor.");
+            Console.WriteLine("7. View Most Visited Patients.");
+            Console.WriteLine("8. Search Patients by Department.");
+            Console.WriteLine("9. Billing Report.");
+            Console.WriteLine("10. Exit.");
+            Console.WriteLine("==========================================");
+        }
+
+        // select choice from menu and call for testing
+        static public int SelectMenuChoice()
+        {
+            Console.Write("Choose option: ");
+
+            int option = 0;
+            try
+            {
+                option = int.Parse(Console.ReadLine());
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Invalid input. Please choose a number from 1 to 10.");
+            }
+            return option;
+        }
 
 
-
-   
 
         static void Main(string[] args)
         {
+            bool exit = false;
+            while (exit == false)
+            {
 
+                DisplayMenu();
+
+                int choice = SelectMenuChoice();
+
+                switch (choice)
+                {
+               
+                }
+            }
 
         }
     }

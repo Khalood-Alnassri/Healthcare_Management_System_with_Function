@@ -1,4 +1,6 @@
-﻿namespace Healthcare_Management_System_with_Function
+﻿using System.Xml.Linq;
+
+namespace Healthcare_Management_System_with_Function
 {
     internal class Program
     {
@@ -12,7 +14,6 @@
         static string[] departments = new string[100];     // e.g. "Cardiology", "Orthopedics"
         static int[] visitCount = new int[100];        // how many times admitted
         static double[] billingAmount = new double[100];     // total fees owed
-        static int lastPatientIndex = -1;
         static DateTime[] lastVisitDate = new DateTime[100];
         static DateTime[] lastDischargeDate = new DateTime[100];
         static int[] daysInHospital = new int[100];
@@ -22,7 +23,7 @@
 
         //////////////////////////////////////////////////////////////////////////////////////////
 
-        // seed of  data
+        // seed of  data for testing
 
         static public void SeedData()
         {
@@ -79,6 +80,7 @@
 
         }
 
+        // display menu
         static public void DisplayMenu()
         {
             Console.WriteLine("==========================================");
@@ -97,7 +99,7 @@
             Console.WriteLine("==========================================");
         }
 
-        // select choice from menu and call for testing
+        // select choice from menu and call 
         static public int SelectMenuChoice()
         {
             Console.Write("Choose option: ");
@@ -116,13 +118,41 @@
             return option;
         }
 
+        // case 1: register new patient
+        static public string RegisterNewPatient()
+        {
+            PatientIndex++;
 
+            Console.WriteLine("Enter patient name: ");
+            patientNames[PatientIndex] = Console.ReadLine().Trim();
+
+            Console.WriteLine("Enter the diagnose: ");
+            diagnoses[PatientIndex] = Console.ReadLine().Trim();
+                        
+            Console.WriteLine("Enter the department: ");
+            departments[PatientIndex] = Console.ReadLine().Trim();
+
+            Console.WriteLine("Enter the blood type: ");
+            bloodType[PatientIndex] = Console.ReadLine().ToUpper();
+
+            patientIDs[PatientIndex] = "P" + (PatientIndex + 1).ToString("D3");
+
+            admitted[PatientIndex] = false;
+            assignedDoctors[PatientIndex] = "";
+            visitCount[PatientIndex] = 0;
+            billingAmount[PatientIndex] = 0;
+            lastDischargeDate[PatientIndex] = DateTime.MinValue;
+            lastVisitDate[PatientIndex] = DateTime.MinValue;
+            daysInHospital[PatientIndex] = 0;
+            return patientIDs[PatientIndex];
+        }
 
         static void Main(string[] args)
         {
             bool exit = false;
             while (exit == false)
             {
+                SeedData();
 
                 DisplayMenu();
 
@@ -130,7 +160,16 @@
 
                 switch (choice)
                 {
-               
+                    case 1:
+
+                       string PID = RegisterNewPatient();
+
+                       Console.WriteLine($"Patient registered successfully with ID: {PID}");
+                           
+
+                        break;
+
+
                 }
             }
 

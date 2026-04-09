@@ -468,6 +468,21 @@ namespace Healthcare_Management_System_with_Function
             }
         }
 
+        // case 7: view most visited patients 
+        static public void ViewMostVisitedPatients()
+        {
+            for (int visit = 100; visit >= 0; visit--) //عداد تنازلي من الاكثر للاقل
+            {
+                for (int i = 0; i <= PatientIndex; i++)
+                {
+                    if (visitCount[i] == visit) //ترتيب المرضى على حسب عدد مرات الزيارة
+                    {
+                        Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nVisit count: " + visitCount[i]);
+                    }
+                }
+            }
+        }
+
         // main function to run the program
         static void Main(string[] args)
         {
@@ -543,6 +558,12 @@ namespace Healthcare_Management_System_with_Function
                         string newDoc = Console.ReadLine();
 
                         TransferPatient(currentDoc, newDoc);
+
+                        break;
+
+                    case 7:
+
+                        ViewMostVisitedPatients();
 
                         break;
                 }

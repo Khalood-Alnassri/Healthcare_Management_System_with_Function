@@ -224,6 +224,126 @@ namespace Healthcare_Management_System_with_Function
             return "Patient admitted successfully and assigned to " + assignedDoctors[index] + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times.";
 
         }
+
+        // case 3: discharge patient
+        static public string DischargePatient(string InputSearch)
+        {
+            bool Found;
+            bool AdmittedStatus = IsAdmitted(InputSearch, out Found);
+            int index = FindPatient(InputSearch);
+            if (!Found)
+            {
+                return "patient not found";
+            }
+            if (index != -1)
+            {
+                if (!AdmittedStatus)
+                {
+                    return "Patient is not currently admitted.";
+                }
+
+                double visitCharge = 0; // fee for this Discharge
+                string message = "";
+
+                Console.WriteLine("Was there a consultation fee? (yes/no)");
+                string fee = Console.ReadLine();
+
+                if (fee.ToLower() == "yes")
+                {
+                    double amount = 0;
+                    bool amountValid = false;
+
+                    while (!amountValid)
+                    {
+                        Console.WriteLine("Enter consultation fee amount: ");
+                        string feeAmount = Console.ReadLine();
+
+
+                        if (double.TryParse(feeAmount, out amount))
+                        {
+
+                            if (amount > 0)
+                            {
+                                billingAmount[index] += amount;
+                                visitCharge += amount;
+                                amountValid = true;
+                                message += "Consultation fee added.\n";
+                            }
+                            else
+                            {
+                                message += "fee amount must be positive\n";
+                            }
+                        }
+
+                        else
+                        {
+                            message += "Invalid amount entered. No charge added.\n";
+                        }
+                    }
+                }
+
+                Console.WriteLine("Any medication charges? (yes/no)");
+                string medication = Console.ReadLine();
+
+                if (medication.ToLower() == "yes")
+                {
+
+                    double price = 0;
+                    bool priceValid = false;
+
+                    while (!priceValid)
+                    {
+                        Console.WriteLine("Enter medication charges: ");
+                        string medCharge = Console.ReadLine();
+
+                        if (double.TryParse(medCharge, out price))
+                        {
+                            if (price > 0)
+                            {
+                                billingAmount[index] += price;
+                                visitCharge += price;
+                                priceValid = true;
+                                message += "Medication charges added.\n";
+                            }
+                            else
+                            {
+                                message += "medication price must be positive\n";
+                            }
+                        }
+                        else
+                        {
+                            message += "Invalid amount entered. No charge added.\n";
+                        }
+                    }
+                }
+
+                if (billingAmount[index] > 0)
+                {
+
+                    message += "Total charges added this visit: " + Math.Round(visitCharge, 2) + " OMR\n" + "Total billing amount for this patient: " + Math.Round(billingAmount[index], 2) + " OMR\n";
+                }
+
+
+                else
+                {
+                    message += "No charges recorded\n";
+                }
+
+                admitted[index] = false;
+
+
+                lastDischargeDate[index] = DateTime.Now;
+                TimeSpan days = DateTime.Now - lastVisitDate[index];
+                daysInHospital[index] += (int)days.TotalDays;
+
+                assignedDoctors[index] = "";
+                message += "Patient discharged successfully, with total days in hospital: " + daysInHospital[index];
+
+                return message;
+            }
+            return "patient not found";
+        }
+
         static void Main(string[] args)
         {
             bool exit = false;
@@ -259,9 +379,21 @@ namespace Healthcare_Management_System_with_Function
 
                         break;
 
+                    case 3:
+
+                        Console.WriteLine("Enter patient ID or patient name: ");
+                        string patientInfoDischarge = Console.ReadLine();
+                        // call discharge function here and print output
+                        string output = DischargePatient(patientInfoDischarge);
+
+                        break;
+
                 }
             }
 
+            Console.WriteLine("Press any key to continue....");
+            Console.ReadKey();
+            Console.Clear();
         }
     }
 }

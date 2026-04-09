@@ -344,6 +344,18 @@ namespace Healthcare_Management_System_with_Function
             return "patient not found";
         }
 
+        // case 4: search patient 
+        static public string SearchPatient(string InputSearch)
+        {
+            int index = FindPatient(InputSearch);
+            if (index != -1)
+            {
+                string status = admitted[index] ? "Admitted" : "Not Admitted";
+                return $"Patient ID: {patientIDs[index]}\nName: {patientNames[index]}\nDiagnose: {diagnoses[index]}\nDepartment: {departments[index]}\nBlood Type: {bloodType[index]}\nAssigned Doctor: {assignedDoctors[index]}\nVisit Count: {visitCount[index]}\nBilling Amount: {billingAmount[index]} OMR\nLast Visit Date: {(lastVisitDate[index] == DateTime.MinValue ? "N/A" : lastVisitDate[index].ToString("yyyy-MM-dd HH:mm"))}\nLast Discharge Date: {(lastDischargeDate[index] == DateTime.MinValue ? "N/A" : lastDischargeDate[index].ToString("yyyy-MM-dd HH:mm"))}\nDays in Hospital: {daysInHospital[index]}\nStatus: {status}";
+            }
+            return "patient not found";
+        }
+
         static void Main(string[] args)
         {
             bool exit = false;
@@ -373,9 +385,9 @@ namespace Healthcare_Management_System_with_Function
                         Console.WriteLine("Enter doctor name: ");
                         string doc = Console.ReadLine();
 
-                        string Output = GetAdmitted(patientInfo, doc);
+                        string AdmittedOutput = GetAdmitted(patientInfo, doc);
 
-                        Console.WriteLine(Output);
+                        Console.WriteLine(AdmittedOutput);
 
                         break;
 
@@ -383,8 +395,21 @@ namespace Healthcare_Management_System_with_Function
 
                         Console.WriteLine("Enter patient ID or patient name: ");
                         string patientInfoDischarge = Console.ReadLine();
+
                         // call discharge function here and print output
-                        string output = DischargePatient(patientInfoDischarge);
+                        string DischargeOutput = DischargePatient(patientInfoDischarge);
+                        Console.WriteLine(DischargeOutput);
+
+                        break;
+
+                    case 4:
+
+                        Console.WriteLine("Enter patient ID or patient name: ");
+                        string patientInfoSearch = Console.ReadLine();
+
+                        // call search function here and print output
+                        string searchOutput = SearchPatient(patientInfoSearch);
+                        Console.WriteLine(searchOutput);
 
                         break;
 

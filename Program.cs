@@ -483,6 +483,44 @@ namespace Healthcare_Management_System_with_Function
             }
         }
 
+        // case 8: search patients by department
+        static public void SearchPatientsByDepartment(string department)
+        {
+
+            bool Found;
+            int index = FindPatient(department);
+            bool AdmittedStatus = IsAdmitted(department, out Found);
+            string dept = Console.ReadLine();
+
+            if (!Found)
+            {
+                Console.WriteLine("No patients found in this department");
+            }
+
+            if (index != -1)
+            {
+                if (departments[index].ToLower().Contains(dept.ToLower()))
+                {
+                    string diagnosisDisplay;
+
+                    if (diagnoses[index].Length > 15)
+                    {
+                        diagnosisDisplay = diagnoses[index].Substring(0, 15) + "...";
+                    }
+                    else
+                    {
+                        diagnosisDisplay = diagnoses[index];
+                    }
+
+                    Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index] + ",\nDiagnosis: " + diagnoses[index] + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + admitted[index] + ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + billingAmount[index] + ",\nAssigned doctor: " + assignedDoctors[index]);
+                }
+            }
+
+
+        }
+            
+        
+
         // main function to run the program
         static void Main(string[] args)
         {
@@ -564,6 +602,15 @@ namespace Healthcare_Management_System_with_Function
                     case 7:
 
                         ViewMostVisitedPatients();
+
+                        break;
+
+                    case 8:
+
+                        Console.WriteLine("Enter department name: ");
+                        string dept = Console.ReadLine();
+
+                        SearchPatientsByDepartment(dept);
 
                         break;
                 }

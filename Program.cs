@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.ComponentModel.Design;
+using System.Xml.Linq;
 
 namespace Healthcare_Management_System_with_Function
 {
@@ -347,15 +348,98 @@ namespace Healthcare_Management_System_with_Function
         // case 4: search patient 
         static public string SearchPatient(string InputSearch)
         {
+            bool Found;
             int index = FindPatient(InputSearch);
+            bool AdmittedStatus = IsAdmitted(InputSearch, out Found);
+
             if (index != -1)
             {
+                if(AdmittedStatus)
+                {
+                     return "Assigned doctor: " + assignedDoctors[index];
+                }
+
                 string status = admitted[index] ? "Admitted" : "Not Admitted";
-                return $"Patient ID: {patientIDs[index]}\nName: {patientNames[index]}\nDiagnose: {diagnoses[index]}\nDepartment: {departments[index]}\nBlood Type: {bloodType[index]}\nAssigned Doctor: {assignedDoctors[index]}\nVisit Count: {visitCount[index]}\nBilling Amount: {billingAmount[index]} OMR\nLast Visit Date: {(lastVisitDate[index] == DateTime.MinValue ? "N/A" : lastVisitDate[index].ToString("yyyy-MM-dd HH:mm"))}\nLast Discharge Date: {(lastDischargeDate[index] == DateTime.MinValue ? "N/A" : lastDischargeDate[index].ToString("yyyy-MM-dd HH:mm"))}\nDays in Hospital: {daysInHospital[index]}\nStatus: {status}";
+                Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index].ToUpper() + ",\nDiagnosis: " + diagnoses[index] +
+                                                                " ( " + diagnoses[index].Length + " characters)" + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + admitted[index] +
+                                                                ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + Convert.ToString(Math.Round(billingAmount[index], 2)) +
+                                                                ",\nBlood Type: " + bloodType[index] + ",\nTotal Days in Hospital: " + daysInHospital[index]);
+
+                if (lastVisitDate[i] != DateTime.MinValue)
+                {
+                    Console.WriteLine("Last visit date: " + lastVisitDate[i].ToString("yyyy-MM-dd"));
+                }
+                else
+                {
+                    Console.WriteLine("No admission recorded.");
+                }
+
+                if (lastDischargeDate[i] != DateTime.MinValue)
+                {
+                    Console.WriteLine("Last discharge date: " + lastDischargeDate[i].ToString("yyyy-MM-dd"));
+                }
+                else
+                {
+                    Console.WriteLine("Still admitted.");
+                }
             }
             return "patient not found";
         }
 
+        // case 5: list all admitted patients 
+        static public void ListAdmittedPatients(string InputSearch)
+        {
+            Console.WriteLine("Filter by name keyword (press Enter to skip): ");
+            Console.WriteLine("===========================");
+
+            string keyword = Console.ReadLine();
+
+            bool Found;
+            bool AdmittedStatus = IsAdmitted(keyword, out Found);
+            int index = FindPatient(InputSearch);
+            double maxBilling = 0;
+            int Count = 0;
+            if (string.IsNullOrEmpty(keyword))
+            {
+                Console.WriteLine("Admitted Patients: ");
+
+                if (AdmittedStatus)
+                {
+                    Count++;
+                    maxBilling = Math.Max(maxBilling, billingAmount[index]); // to track the running maximum
+
+                    Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index] + ",\nDiagnosis: " + diagnoses[index] + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + admitted[index] + ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + billingAmount[index] + ",\nAssigned doctor: " + assignedDoctors[index] + ",\nAdmitted since: " + lastVisitDate[index]);
+                }
+
+                Console.WriteLine("The  total admitted count is: " + Count);
+                Console.WriteLine("The highest billing amount among admitted patients is: " + Math.Round(maxBilling, 2) + " OMR");
+
+            }
+
+            else
+            {
+                if (index != -1)
+                {
+                    if (AdmittedStatus)
+                    {
+                        Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index] + ",\nDiagnosis: " + diagnoses[index] + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + admitted[index] + ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + billingAmount[index] + ",\nAssigned doctor: " + assignedDoctors[index] + ",\nAdmitted since: " + lastVisitDate[index]);
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine("No admitted patient found with the keyword: " + keyword);
+                }
+
+            }
+
+                Console.WriteLine("No patient admitted.");
+            
+        }
+
+
+
+        // main function to run the program
         static void Main(string[] args)
         {
             bool exit = false;
@@ -410,6 +494,14 @@ namespace Healthcare_Management_System_with_Function
                         // call search function here and print output
                         string searchOutput = SearchPatient(patientInfoSearch);
                         Console.WriteLine(searchOutput);
+
+                        break;
+
+                    case 5:
+
+                        Console.WriteLine("Filter by name keyword (press Enter to skip): ");
+                        string patientInfoList = Console.ReadLine();
+                        ListAdmittedPatients(patientInfoList);
 
                         break;
 

@@ -147,6 +147,83 @@ namespace Healthcare_Management_System_with_Function
             return patientIDs[PatientIndex];
         }
 
+        // helper function to find patient 
+        static public int FindPatient(string searchInput)
+        {
+            string Input = Console.ReadLine().ToUpper();
+
+            int PatientFound = -1;
+            for (int i = 0; i <= PatientIndex; i++)
+            {
+                if (Input == patientIDs[i] || Input == patientNames[i])
+                {
+                    PatientFound = i;
+                    break;
+                }
+            }
+            return PatientFound;  // not found
+        }
+
+        // helper function to check if patient is currently admitted
+        static public bool IsAdmitted(string InputSearch, out bool isFound)
+        {
+            int FoundPatient = FindPatient(InputSearch);
+            
+            if (FoundPatient != -1)
+            {
+                isFound = true; // patient found
+                return admitted[FoundPatient]; // return true if admitted, false if not
+            }
+            isFound = false; // patient not found
+            return false;   // invalid index
+        }
+
+        // case 2: admit patient
+        static public string GetAdmitted(string InputSearch, string doctorName)
+        {
+            bool Found;
+            bool AdmittedStatus = IsAdmitted(InputSearch, out Found);
+            int index = FindPatient(InputSearch);
+
+            if (!Found)
+            {
+                return "patient not found";
+            }
+
+            if (index != -1)
+            {
+                if (AdmittedStatus)
+                {
+                    return "Patient is already admitted under " + assignedDoctors[index];
+                }
+
+
+                    if (string.IsNullOrWhiteSpace(doctorName)) // Empty value is not allowed
+                    {
+                        return "Doctor name cannot be empty.";
+                    }
+
+                    assignedDoctors[index] = doctorName;
+                    visitCount[index]++;
+                    lastVisitDate[index] = DateTime.Now;
+                    lastDischargeDate[index] = DateTime.MinValue;
+                    admitted[index] = true;
+
+
+                    if (visitCount[index] > 1)
+                    {
+                        Console.WriteLine("This patient has been admitted " + visitCount[index] + " times.");
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("This is the frist visit.");
+                    }
+            }
+
+            return "Patient admitted successfully and assigned to " + assignedDoctors[index] + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times.";
+
+        }
         static void Main(string[] args)
         {
             bool exit = false;
@@ -165,10 +242,22 @@ namespace Healthcare_Management_System_with_Function
                        string PID = RegisterNewPatient();
 
                        Console.WriteLine($"Patient registered successfully with ID: {PID}");
-                           
-
+                          
                         break;
 
+                    case 2:
+
+                        Console.WriteLine("Enter patient ID or patient name: ");
+                        string patientInfo = Console.ReadLine();
+
+                        Console.WriteLine("Enter doctor name: ");
+                        string doc = Console.ReadLine();
+
+                        string Output = GetAdmitted(patientInfo, doc);
+
+                        Console.WriteLine(Output);
+
+                        break;
 
                 }
             }

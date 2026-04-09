@@ -437,7 +437,36 @@ namespace Healthcare_Management_System_with_Function
             
         }
 
+        // case 6: transfer patient to another doctor 
+        static public void TransferPatient(string currentDoctor, string newDoctor)
+        {
+            bool Found;
+            bool AdmittedStatus = IsAdmitted(currentDoctor, out Found);
+            int index = FindPatient(currentDoctor);
 
+            if (!Found)
+            {
+                Console.WriteLine("Doctor not found");
+                return;
+            }
+
+            if (currentDoctor == assignedDoctors[index])
+            {
+                if (!AdmittedStatus)
+                {
+                    Console.WriteLine("Patient is not currently admitted with this doctor!");
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(newDoctor)) // Empty value is not allowed
+                {
+                    Console.WriteLine("Doctor name cannot be empty.");
+                    return;
+                }
+                assignedDoctors[index] = newDoctor;
+                Console.WriteLine("Patient transferred successfully to " + assignedDoctors[index]);
+            }
+        }
 
         // main function to run the program
         static void Main(string[] args)
@@ -505,6 +534,17 @@ namespace Healthcare_Management_System_with_Function
 
                         break;
 
+                    case 6:
+
+                        Console.WriteLine("Enter current doctor name: ");
+                        string currentDoc = Console.ReadLine();
+
+                        Console.WriteLine("Enter new doctor name: ");
+                        string newDoc = Console.ReadLine();
+
+                        TransferPatient(currentDoc, newDoc);
+
+                        break;
                 }
             }
 

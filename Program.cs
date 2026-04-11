@@ -103,20 +103,31 @@ namespace Healthcare_Management_System_with_Function
         // select choice from menu and call 
         static public int SelectMenuChoice()
         {
-            Console.Write("Choose option: ");
 
-            int option = 0;
-            try
+            int option;
+
+            while (true)
             {
-                option = int.Parse(Console.ReadLine());
+                Console.Write("Choose option: ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out option))
+                {
+                    if (option >= 1 && option <= 10)
+                    {
+                        return option;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please choose a number between 1 and 10.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                }
             }
 
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("Invalid input. Please choose a number from 1 to 10.");
-            }
-            return option;
         }
 
         // case 1: register new patient
@@ -151,7 +162,7 @@ namespace Healthcare_Management_System_with_Function
         // helper function to find patient 
         static public int FindPatient(string searchInput)
         {
-            string Input = Console.ReadLine().ToUpper();
+            string Input = searchInput.ToUpper();
 
             int PatientFound = -1;
             for (int i = 0; i <= PatientIndex; i++)
@@ -173,14 +184,14 @@ namespace Healthcare_Management_System_with_Function
             if (FoundPatient != -1)
             {
                 isFound = true; // patient found
-                return admitted[FoundPatient]; // return true if admitted, false if not
+                return admitted[FoundPatient] ; // return true if admitted, false if not
             }
             isFound = false; // patient not found
             return false;   // invalid index
         }
 
         // case 2: admit patient
-        static public string GetAdmitted(string InputSearch, string doctorName)
+        static public string GetAdmitted(string InputSearch)
         {
             bool Found;
             bool AdmittedStatus = IsAdmitted(InputSearch, out Found);
@@ -198,6 +209,11 @@ namespace Healthcare_Management_System_with_Function
                     return "Patient is already admitted under " + assignedDoctors[index];
                 }
 
+                else
+                {
+
+                    Console.Write("Enter doctor name: ");
+                    string doctorName = Console.ReadLine();
 
                     if (string.IsNullOrWhiteSpace(doctorName)) // Empty value is not allowed
                     {
@@ -210,19 +226,13 @@ namespace Healthcare_Management_System_with_Function
                     lastDischargeDate[index] = DateTime.MinValue;
                     admitted[index] = true;
 
+                    string visitMessage = visitCount[index] > 1 ? "This patient has been admitted " + visitCount[index] + " times." : "This is the first visit.";
 
-                    if (visitCount[index] > 1)
-                    {
-                        Console.WriteLine("This patient has been admitted " + visitCount[index] + " times.");
-                    }
 
-                    else
-                    {
-                        Console.WriteLine("This is the frist visit.");
-                    }
+                    return "Patient admitted successfully and assigned to " + assignedDoctors[index] + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times.";
+                }
             }
-
-            return "Patient admitted successfully and assigned to " + assignedDoctors[index] + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times.";
+            return "patient not found";
 
         }
 
@@ -268,7 +278,6 @@ namespace Healthcare_Management_System_with_Function
                                 billingAmount[index] += amount;
                                 visitCharge += amount;
                                 amountValid = true;
-                                message += "Consultation fee added.\n";
                             }
                             else
                             {
@@ -304,7 +313,6 @@ namespace Healthcare_Management_System_with_Function
                                 billingAmount[index] += price;
                                 visitCharge += price;
                                 priceValid = true;
-                                message += "Medication charges added.\n";
                             }
                             else
                             {
@@ -365,18 +373,18 @@ namespace Healthcare_Management_System_with_Function
                                                                 ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + Convert.ToString(Math.Round(billingAmount[index], 2)) +
                                                                 ",\nBlood Type: " + bloodType[index] + ",\nTotal Days in Hospital: " + daysInHospital[index]);
 
-                if (lastVisitDate[i] != DateTime.MinValue)
+                if (lastVisitDate[index] != DateTime.MinValue)
                 {
-                    Console.WriteLine("Last visit date: " + lastVisitDate[i].ToString("yyyy-MM-dd"));
+                    Console.WriteLine("Last visit date: " + lastVisitDate[index].ToString("yyyy-MM-dd"));
                 }
                 else
                 {
                     Console.WriteLine("No admission recorded.");
                 }
 
-                if (lastDischargeDate[i] != DateTime.MinValue)
+                if (lastDischargeDate[index] != DateTime.MinValue)
                 {
-                    Console.WriteLine("Last discharge date: " + lastDischargeDate[i].ToString("yyyy-MM-dd"));
+                    Console.WriteLine("Last discharge date: " + lastDischargeDate[index].ToString("yyyy-MM-dd"));
                 }
                 else
                 {
@@ -518,8 +526,94 @@ namespace Healthcare_Management_System_with_Function
 
 
         }
-            
-        
+
+        // select choice from billing menu
+        static public int SelectChoice()
+        {
+            int option;
+
+            while (true)
+            {
+                Console.WriteLine("Enter your choice: ");
+                string choice = Console.ReadLine();
+
+                if (int.TryParse(choice, out option))
+                {
+
+                    if (option == 1 || option == 2)
+                    {
+                        return option;
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Invalid choice. Please enter 1 or 2.");
+                    }
+                }
+
+                Console.WriteLine("Invalid choice.");
+            }
+        }
+
+        // case 9: billing report
+        static public void BillingReport()
+        {
+            Console.WriteLine("===== Sub Menu =====");
+            Console.WriteLine("1. System billing amount.");
+            Console.WriteLine("2. Individual patient billing.");
+
+            int choice = SelectChoice();
+            if (choice == 1)
+            {
+                double TotalAmount = 0;
+                double maxIndividualBilling = 0;
+                double minIndividualBilling = double.MaxValue;
+
+                for (int i = 0; i <= PatientIndex; i++)
+                {
+
+                    TotalAmount += billingAmount[i];
+
+                    if (billingAmount[i] > 0)
+                    {
+                        maxIndividualBilling = Math.Max(maxIndividualBilling, billingAmount[i]);
+                        minIndividualBilling = Math.Min(minIndividualBilling, billingAmount[i]);
+                    }
+                }
+
+                Console.WriteLine("Total amount = " + Math.Round(TotalAmount, 2) + " OMR");
+
+                if (minIndividualBilling != double.MaxValue)
+                {
+                    Console.WriteLine("Highest individual billing: " + Math.Round(maxIndividualBilling, 2) + "OMR");
+                    Console.WriteLine("Lowest individual billing: " + Math.Round(minIndividualBilling, 2) + "OMR");
+                }
+
+            }
+
+
+            else if (choice == 2)
+            {
+
+                Console.WriteLine("Enter patient ID or patient name: ");
+                string patientInfo = Console.ReadLine();
+
+                int index = FindPatient(patientInfo);
+
+                if (index != -1)
+                {
+                    Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index] + ",\nTotal billing amount: " + Math.Round(billingAmount[index], 2) + " OMR");
+                }
+
+                else
+
+                { 
+                    Console.WriteLine("Patient not found.");
+                }
+            }
+      
+        }
+
 
         // main function to run the program
         static void Main(string[] args)
@@ -548,10 +642,7 @@ namespace Healthcare_Management_System_with_Function
                         Console.WriteLine("Enter patient ID or patient name: ");
                         string patientInfo = Console.ReadLine();
 
-                        Console.WriteLine("Enter doctor name: ");
-                        string doc = Console.ReadLine();
-
-                        string AdmittedOutput = GetAdmitted(patientInfo, doc);
+                        string AdmittedOutput = GetAdmitted(patientInfo);
 
                         Console.WriteLine(AdmittedOutput);
 
@@ -613,12 +704,21 @@ namespace Healthcare_Management_System_with_Function
                         SearchPatientsByDepartment(dept);
 
                         break;
+
+                     case 9:
+
+                        BillingReport();
+
+                        break;
+
+
                 }
+
+                Console.WriteLine("Press any key to continue....");
+                Console.ReadKey();
+                Console.Clear();
             }
 
-            Console.WriteLine("Press any key to continue....");
-            Console.ReadKey();
-            Console.Clear();
         }
     }
 }

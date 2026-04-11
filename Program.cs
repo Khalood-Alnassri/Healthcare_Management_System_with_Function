@@ -531,34 +531,34 @@ namespace Healthcare_Management_System_with_Function
         // case 8: search patients by department
         static public void SearchPatientsByDepartment(string department)
         {
+            string dept = department.ToUpper();
 
-            bool Found;
-            int index = FindPatient(department);
-            bool AdmittedStatus = IsAdmitted(department, out Found);
-            string dept = Console.ReadLine();
-
-            if (!Found)
+            bool patFound = false;
+            for (int i = 0; i <= PatientIndex; i++)
             {
-                Console.WriteLine("No patients found in this department");
-            }
-
-            if (index != -1)
-            {
-                if (departments[index].ToLower().Contains(dept.ToLower()))
+                if (departments[i] != null && departments[i].ToLower().Contains(dept.ToLower()))
                 {
+                    patFound = true;
+
                     string diagnosisDisplay;
 
-                    if (diagnoses[index].Length > 15)
+                    if (diagnoses[i].Length > 15)
                     {
-                        diagnosisDisplay = diagnoses[index].Substring(0, 15) + "...";
+                        diagnosisDisplay = diagnoses[i].Substring(0, 15) + "...";
                     }
                     else
                     {
-                        diagnosisDisplay = diagnoses[index];
+                        diagnosisDisplay = diagnoses[i];
                     }
 
-                    Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index] + ",\nDiagnosis: " + diagnoses[index] + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + admitted[index] + ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + billingAmount[index] + ",\nAssigned doctor: " + assignedDoctors[index]);
+                    string AdmissionStatus = admitted[i] ? "Admitted" : "Not Admitted";
+                    Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnosisDisplay + ",\nStatus: " + AdmissionStatus + ",\nBlood type: " + bloodType[i]);
                 }
+            }
+
+            if (!patFound)
+            {
+                Console.WriteLine("No patients found in this department");
             }
 
 

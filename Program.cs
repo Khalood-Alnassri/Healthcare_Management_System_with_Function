@@ -463,32 +463,53 @@ namespace Healthcare_Management_System_with_Function
         // case 6: transfer patient to another doctor 
         static public void TransferPatient(string currentDoctor, string newDoctor)
         {
-            bool Found;
-            bool AdmittedStatus = IsAdmitted(currentDoctor, out Found);
-            int index = FindPatient(currentDoctor);
+            currentDoctor = Console.ReadLine().Trim();
+            newDoctor = Console.ReadLine().Trim();
 
-            if (!Found)
+            currentDoctor = currentDoctor.Replace("Dr ", "Dr. ");
+            newDoctor = newDoctor.Replace("Dr ", "Dr. ");
+
+            bool doctorFound = false;
+            bool admittedPatientFound = false;
+
+            for (int i = 0; i <= PatientIndex; i++)
             {
-                Console.WriteLine("Doctor not found");
-                return;
+                if (assignedDoctors[i] == currentDoctor) // find current Doctor 
+                {
+                    doctorFound = true;
+
+                    if (admitted[i] == true)
+                    {
+                        admittedPatientFound = true;
+
+                        if (newDoctor != currentDoctor)
+                        {
+                            assignedDoctors[i] = newDoctor;
+                            Console.WriteLine("Patient name: " + patientNames[i] + " has been transferred to " + newDoctor);
+                            Console.WriteLine("Patient last admitted on: " + lastVisitDate[i]);
+                        }
+
+                        else
+                        {
+                            Console.WriteLine("Doctor names must be different!");
+                            break;
+                        }
+
+                    }
+
+                }
             }
 
-            if (currentDoctor == assignedDoctors[index])
+            if (doctorFound == false)
             {
-                if (!AdmittedStatus)
-                {
-                    Console.WriteLine("Patient is not currently admitted with this doctor!");
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(newDoctor)) // Empty value is not allowed
-                {
-                    Console.WriteLine("Doctor name cannot be empty.");
-                    return;
-                }
-                assignedDoctors[index] = newDoctor;
-                Console.WriteLine("Patient transferred successfully to " + assignedDoctors[index]);
+                Console.WriteLine("Doctor not found!.");
             }
+
+            else if (!admittedPatientFound)
+            {
+                Console.WriteLine("No admitted patient found under this doctor");
+            }
+
         }
 
         // case 7: view most visited patients 
@@ -501,6 +522,7 @@ namespace Healthcare_Management_System_with_Function
                     if (visitCount[i] == visit) //ترتيب المرضى على حسب عدد مرات الزيارة
                     {
                         Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nVisit count: " + visitCount[i]);
+                        Console.WriteLine("----------------------------");
                     }
                 }
             }

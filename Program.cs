@@ -614,6 +614,26 @@ namespace Healthcare_Management_System_with_Function
       
         }
 
+        // case 10: exit program
+        static public bool ExitProgram()
+        {
+            Console.WriteLine("Are you sure you want to exit? (yes/no): ");
+            string confirmExit = Console.ReadLine();
+
+            if (confirmExit == "yes")
+            {
+                Console.WriteLine("Exiting system...");
+                Console.WriteLine("Thank you for using the Healthcare Management System!");
+                return true;
+            }
+
+            else
+            {
+                Console.WriteLine("Returning to menu...");
+                return false;
+            }
+        }
+
 
         // main function to run the program
         static void Main(string[] args)
@@ -708,6 +728,18 @@ namespace Healthcare_Management_System_with_Function
                      case 9:
 
                         BillingReport();
+
+                        break;
+
+                    case 10: 
+
+                        exit = ExitProgram();
+
+                        break;
+
+                     default:
+
+                        Console.WriteLine("Invalid choice. Please select a valid option from the menu.");
 
                         break;
 

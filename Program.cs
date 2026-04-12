@@ -246,14 +246,41 @@ namespace Healthcare_Management_System_with_Function
                 {
 
                     Console.Write("Enter doctor name: ");
-                    string doctorName = Console.ReadLine();
+                    string doctorName = Console.ReadLine().ToLower();
 
-                    if (string.IsNullOrWhiteSpace(doctorName)) // Empty value is not allowed
+                    bool doctorFound = false;
+                    string assignedDoctor = "";
+                    int SlotsAvailable = 0;
+
+                    for (int i = 0; i <= lastDoctorIndex; i++)
                     {
-                        return "Doctor name cannot be empty.";
+                        if (doctorNames[i].ToLower() == doctorName)
+                        {
+                            doctorFound = true;
+
+                            if (doctorAvailableSlots[i] > 0)
+                            {
+                                doctorAvailableSlots[i]--;
+                                SlotsAvailable = doctorAvailableSlots[i];
+                                doctorVisitCount[i]++;
+                                assignedDoctor = doctorNames[i]; // to get the correct formatting of the name
+                                
+                            }
+
+                            else
+                            {
+                                return "Dr. " + doctorNames[i] + " has no available slots at this time.";
+                            }
+
+                            break;
+                        }
                     }
 
-                    assignedDoctors[index] = doctorName;
+                    if (!doctorFound)
+                    {
+                        return "Doctor not found in the system. Please register the doctor first.";
+                    }
+
                     visitCount[index]++;
                     lastVisitDate[index] = DateTime.Now;
                     lastDischargeDate[index] = DateTime.MinValue;
@@ -261,8 +288,9 @@ namespace Healthcare_Management_System_with_Function
 
                     string visitMessage = visitCount[index] > 1 ? "This patient has been admitted " + visitCount[index] + " times." : "This is the first visit.";
 
-
-                    return "Patient admitted successfully and assigned to " + assignedDoctors[index] + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times.";
+                    Console.WriteLine("==============================================================================");
+                    return "Patient admitted successfully and assigned to " + assignedDoctor + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times." + 
+                            "\nDr." + assignedDoctor + " now has: " + SlotsAvailable + "slot(s) remaining.";
                 }
             }
             return "patient not found";

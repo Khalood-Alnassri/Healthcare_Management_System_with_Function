@@ -709,21 +709,41 @@ namespace Healthcare_Management_System_with_Function
         {
             lastDoctorIndex++;
 
-            Console.WriteLine("Enter doctor name: ");
+            Console.WriteLine("Enter doctor full name: ");
             doctorNames[lastDoctorIndex] = Console.ReadLine().Trim();
+
+            while (string.IsNullOrEmpty(doctorNames[lastDoctorIndex]))
+            {
+                Console.WriteLine("Doctor name cannot be empty. Please enter again:");
+                doctorNames[lastDoctorIndex] = Console.ReadLine().Trim();
+            }
+
+            for(int i = 0; i < lastDoctorIndex; i++)
+            {
+                if (doctorNames[i].ToLower() == (doctorNames[lastDoctorIndex].ToLower()))
+                {
+                    Console.WriteLine("Doctor already exists. Registration cancelled.");
+                    lastDoctorIndex--; // revert index increment
+                    return;
+                }
+            }
+
+            doctorNames[lastDoctorIndex] = doctorNames[lastDoctorIndex].Substring(0, 1).ToUpper() + doctorNames[lastDoctorIndex].Substring(1);
 
             Console.WriteLine("Enter available slots for this doctor: ");
             int slots;
 
-            while (!int.TryParse(Console.ReadLine(), out slots) || slots < 0 || slots > 50)
+            while (!int.TryParse(Console.ReadLine(), out slots) || slots < 1 || slots > 50)
             {
-                Console.WriteLine("Invalid input. Please enter a non-negative number that does not exceed 50!!.");
+                Console.WriteLine("Invalid slot count. Doctor not registered.");
             }
 
             doctorAvailableSlots[lastDoctorIndex] = slots;
             doctorVisitCount[lastDoctorIndex] = 0;
             Console.WriteLine("Doctor: " + doctorNames[lastDoctorIndex] + ", added successfully with available slots : " + doctorAvailableSlots[lastDoctorIndex]);
         }
+
+        // case 12: doctor salary report
 
         // main function to run the program
         static void Main(string[] args)

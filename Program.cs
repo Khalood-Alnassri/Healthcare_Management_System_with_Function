@@ -85,6 +85,30 @@ namespace Healthcare_Management_System_with_Function
             daysInHospital[PatientIndex] = 5;
             bloodType[PatientIndex] = "B+";
 
+            //Doctor 1
+
+            lastDoctorIndex++;
+
+            doctorNames[lastDoctorIndex] = "Dr. Noor";
+            doctorAvailableSlots[lastDoctorIndex] = 5;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            //Doctor 2
+
+            lastDoctorIndex++;
+
+            doctorNames[lastDoctorIndex] = "Dr. Salem";
+            doctorAvailableSlots[lastDoctorIndex] = 3;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            //Doctor 3
+
+            lastDoctorIndex++;
+
+            doctorNames[lastDoctorIndex] = "Dr. Hana";
+            doctorAvailableSlots[lastDoctorIndex] = 8;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
         }
 
         // display menu

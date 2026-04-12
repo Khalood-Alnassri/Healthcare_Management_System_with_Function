@@ -450,16 +450,17 @@ namespace Healthcare_Management_System_with_Function
             string message = "";
             if (index != -1)
             {
-                if(AdmittedStatus)
-                {
-                     message += "Assigned doctor: " + assignedDoctors[index];
-                }
 
                 string status = admitted[index] ? "Admitted" : "Not Admitted";
                 message += "Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index].ToUpper() + ",\nDiagnosis: " + diagnoses[index] +
                                  " ( " + diagnoses[index].Length + " characters)" + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + status +
                                  ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + Convert.ToString(Math.Round(billingAmount[index], 2)) +
                                  ",\nBlood Type: " + bloodType[index] + ",\nTotal Days in Hospital: " + daysInHospital[index];
+
+                if (AdmittedStatus)
+                {
+                    message += "Assigned doctor: " + assignedDoctors[index] + "\n";
+                }
 
                 if (lastVisitDate[index] != DateTime.MinValue)
                 {
@@ -516,7 +517,7 @@ namespace Healthcare_Management_System_with_Function
 
             Console.WriteLine("==================================================");
 
-            if (HasAdmitted == true)
+            if (HasAdmitted)
             {
                 Console.WriteLine("The  total admitted count is: " + Count);
                 Console.WriteLine("The highest billing amount among admitted patients is: " + Math.Round(maxBilling, 2) + " OMR");
@@ -600,6 +601,7 @@ namespace Healthcare_Management_System_with_Function
         // case 8: search patients by department
         static public void SearchPatientsByDepartment(string department)
         {
+            Console.WriteLine("Enter department name: ");
             string dept = department.ToUpper();
 
             bool patFound = false;
@@ -622,6 +624,7 @@ namespace Healthcare_Management_System_with_Function
 
                     string AdmissionStatus = admitted[i] ? "Admitted" : "Not Admitted";
                     Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnosisDisplay + ",\nStatus: " + AdmissionStatus + ",\nBlood type: " + bloodType[i]);
+                    Console.WriteLine("============================================================");
                 }
             }
 
@@ -894,7 +897,6 @@ namespace Healthcare_Management_System_with_Function
 
                     case 8:
 
-                        Console.WriteLine("Enter department name: ");
                         string dept = Console.ReadLine();
 
                         SearchPatientsByDepartment(dept);

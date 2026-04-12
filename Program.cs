@@ -399,16 +399,37 @@ namespace Healthcare_Management_System_with_Function
                     message += "No charges recorded\n";
                 }
 
+                bool doctorFound = false;
+                int AvailableSlots = 0;
+                for (int i = 0; i <= lastDoctorIndex; i++)
+                {
+                    if (assignedDoctors[index].ToLower().Trim() == doctorNames[i].ToLower().Trim())
+                    {
+                        doctorFound = true;
+                        doctorAvailableSlots[i]++;
+                        AvailableSlots = doctorAvailableSlots[i];
+                        doctorNames[i] = doctorNames[i].Replace("Dr ", "Dr. ");
+                        message += doctorNames[i] + " now has: " + AvailableSlots + " slot(s) available.";
+                        break;
+                    }
+
+                }
+
+                if(doctorFound == false)
+                {
+                    message += "Warning: assigned doctor not found in registry.Slots not updated.";
+                }
+
                 admitted[index] = false;
-
-
                 lastDischargeDate[index] = DateTime.Now;
                 TimeSpan days = DateTime.Now - lastVisitDate[index];
                 daysInHospital[index] += (int)days.TotalDays;
 
-                assignedDoctors[index] = "";
-                message += "Patient discharged successfully, with total days in hospital: " + daysInHospital[index];
+                message += "\nPatient discharged successfully, with total days in hospital: " + daysInHospital[index];
 
+                assignedDoctors[index] = "";
+
+                Console.WriteLine("==============================================================================");
                 return message;
             }
             return "patient not found";

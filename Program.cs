@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 namespace Healthcare_Management_System_with_Function
 {
@@ -145,13 +146,13 @@ namespace Healthcare_Management_System_with_Function
 
                 if (int.TryParse(input, out option))
                 {
-                    if (option >= 1 && option <= 10)
+                    if (option >= 1 && option <= 12)
                     {
                         return option;
                     }
                     else
                     {
-                        Console.WriteLine("Please choose a number between 1 and 10.");
+                        Console.WriteLine("Please choose a number between 1 and 12.");
                     }
                 }
                 else
@@ -703,6 +704,26 @@ namespace Healthcare_Management_System_with_Function
             }
         }
 
+        // case 11: add doctor
+        static public void AddDoctor()
+        {
+            lastDoctorIndex++;
+
+            Console.WriteLine("Enter doctor name: ");
+            doctorNames[lastDoctorIndex] = Console.ReadLine().Trim();
+
+            Console.WriteLine("Enter available slots for this doctor: ");
+            int slots;
+
+            while (!int.TryParse(Console.ReadLine(), out slots) || slots < 0 || slots > 50)
+            {
+                Console.WriteLine("Invalid input. Please enter a non-negative number that does not exceed 50!!.");
+            }
+
+            doctorAvailableSlots[lastDoctorIndex] = slots;
+            doctorVisitCount[lastDoctorIndex] = 0;
+            Console.WriteLine("Doctor: " + doctorNames[lastDoctorIndex] + ", added successfully with available slots : " + doctorAvailableSlots[lastDoctorIndex]);
+        }
 
         // main function to run the program
         static void Main(string[] args)
@@ -722,7 +743,7 @@ namespace Healthcare_Management_System_with_Function
 
                        string PID = RegisterNewPatient();
 
-                       Console.WriteLine($"Patient registered successfully with ID: {PID}");
+                       Console.WriteLine("Patient registered successfully with ID: " + PID);
                           
                         break;
 
@@ -806,7 +827,13 @@ namespace Healthcare_Management_System_with_Function
 
                         break;
 
-                     default:
+                    case 11:
+
+                        AddDoctor();
+
+                        break;
+
+                    default:
 
                         Console.WriteLine("Invalid choice. Please select a valid option from the menu.");
 

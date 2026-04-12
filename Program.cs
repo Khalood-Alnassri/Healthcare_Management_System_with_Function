@@ -127,6 +127,8 @@ namespace Healthcare_Management_System_with_Function
             Console.WriteLine("8. Search Patients by Department.");
             Console.WriteLine("9. Billing Report.");
             Console.WriteLine("10. Exit.");
+            Console.WriteLine("11. Add Doctor");
+            Console.WriteLine("12. Doctor Salary Report");
             Console.WriteLine("==========================================");
         }
 

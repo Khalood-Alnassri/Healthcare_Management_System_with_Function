@@ -21,6 +21,12 @@ namespace Healthcare_Management_System_with_Function
         static string[] bloodType = new string[100];
         static int PatientIndex = -1;
 
+        static string[] doctorNames = new string[50]; // Stores the registered name of each doctor
+        static int[] doctorAvailableSlots = new int[50]; // Stores the Available Slots of each doctor
+        static int[] doctorVisitCount = new int[50]; // Stores the number of patients assigned to each doctor
+        static int lastDoctorIndex = -1; // Tracks the current index for doctor registration
+
+
 
         //////////////////////////////////////////////////////////////////////////////////////////
 

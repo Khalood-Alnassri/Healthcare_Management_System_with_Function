@@ -744,6 +744,38 @@ namespace Healthcare_Management_System_with_Function
         }
 
         // case 12: doctor salary report
+        static void DoctorSalaryReport()
+        {
+            Console.WriteLine("===== Doctor Salary Report =====");
+            Console.WriteLine("================================");
+
+            double maxSalary = 0;
+            string DoctorName = "";
+
+            for (int i = 0; i <= lastDoctorIndex; i++)
+            {
+                double salary = 300; // Base salary for each doctor
+
+                double PerVisitBonus = doctorVisitCount[i] * 15; // Assuming a fixed amount per patient visit
+
+                double TotalSalary = Math.Round(salary + PerVisitBonus, 2);
+
+                double newMax = Math.Max(maxSalary, TotalSalary);
+
+                if (newMax > maxSalary)
+                {
+                    maxSalary = newMax;
+                    DoctorName = doctorNames[i];
+                }
+
+                Console.WriteLine("Dr.: " + doctorNames[i] + "| Total Patients Assigned: " + doctorVisitCount[i] + "| Salary: " + TotalSalary.ToString() + " OMR");
+
+            }
+
+                Console.WriteLine("=============================================================");
+            Console.WriteLine("Highest earning doctor: " + DoctorName + "-" + maxSalary + " OMR");
+
+        }
 
         // main function to run the program
         static void Main(string[] args)
@@ -850,6 +882,12 @@ namespace Healthcare_Management_System_with_Function
                     case 11:
 
                         AddDoctor();
+
+                        break;
+
+                    case 12:
+
+                        DoctorSalaryReport();
 
                         break;
 

@@ -485,61 +485,48 @@ namespace Healthcare_Management_System_with_Function
         }
 
         // case 5: list all admitted patients 
-        static public void ListAdmittedPatients(string InputSearch)
+        static public void ListAdmittedPatients()
         {
-            string keyword = Console.ReadLine();
+            Console.WriteLine("Filter by name keyword (press Enter to skip): ");
+            string keyword = Console.ReadLine().ToLower();
 
-            Console.WriteLine("===========================");
-            Console.WriteLine("Admitted Patients: ");
+            int Count = 0;
+            double maxBilling = 0;
+            bool HasAdmitted = false;
 
-            if (string.IsNullOrEmpty(keyword))
+
+            for (int i = 0; i <= PatientIndex; i++)
             {
-
-                bool Found;
-                bool AdmittedStatus = IsAdmitted(keyword, out Found);
-                int index = FindPatient(InputSearch);
-                double maxBilling = 0;
-                int Count = 0;
-
-                for (int i = 0; i <= PatientIndex; i++)
+                if (!admitted[i])
                 {
-                    // تحقق إذا المريض منوّم
-                    if (admitted[i])
-                    {
-                        // فلترة بالكلمة
-                        if (!string.IsNullOrEmpty(keyword) &&
-                            !patientNames[i].ToLower().Contains(keyword.ToLower()))
-                        {
-                            continue;
-                        }
-
-                        Count++;
-                        maxBilling = Math.Max(maxBilling, billingAmount[i]);
-
-                        Console.WriteLine("Patient name: " + patientNames[i] +
-                                          ",\nPatient ID: " + patientIDs[i] +
-                                          ",\nDiagnosis: " + diagnoses[i] +
-                                          ",\nDepartment: " + departments[i] +
-                                          ",\nAdmission status: " + admitted[i] +
-                                          ",\nVisit count: " + visitCount[i] +
-                                          ",\ntotal billing amount: " + billingAmount[i] +
-                                          ",\nAssigned doctor: " + assignedDoctors[i] +
-                                          ",\nAdmitted since: " + lastVisitDate[i]);
-                    }
+                    continue;
                 }
 
-                // 👇 الطباعة بعد اللوب
-                if (Count > 0)
+                if (!string.IsNullOrEmpty(keyword) && !patientNames[i].ToLower().Contains(keyword))
                 {
-                    Console.WriteLine("The total admitted count is: " + Count);
-                    Console.WriteLine("The highest billing amount among admitted patients is: " + Math.Round(maxBilling, 2) + " OMR");
-                }
-                else
-                {
-                    Console.WriteLine("No patient admitted.");
+                    continue;
                 }
 
+                
+                    HasAdmitted = true;
+                    Count++;
+                    maxBilling = Math.Max(maxBilling, billingAmount[i]); // to track the running maximum
+                Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nAdmission status: " + admitted[i] + ",\nVisit count: " + visitCount[i] + ",\ntotal billing amount: " + billingAmount[i] + ",\nAssigned doctor: " + assignedDoctors[i] + ",\nAdmitted since: " + lastVisitDate[i]);
             }
+
+            Console.WriteLine("==================================================");
+
+            if (HasAdmitted == true)
+            {
+                Console.WriteLine("The  total admitted count is: " + Count);
+                Console.WriteLine("The highest billing amount among admitted patients is: " + Math.Round(maxBilling, 2) + " OMR");
+            }
+
+            else
+            {
+                Console.WriteLine("No patient admitted.");
+            }
+
         }
 
         // case 6: transfer patient to another doctor 
@@ -883,9 +870,7 @@ namespace Healthcare_Management_System_with_Function
 
                     case 5:
 
-                        Console.WriteLine("Filter by name keyword (press Enter to skip): ");
-                        string patientInfoList = Console.ReadLine();
-                        ListAdmittedPatients(patientInfoList);
+                        ListAdmittedPatients();
 
                         break;
 

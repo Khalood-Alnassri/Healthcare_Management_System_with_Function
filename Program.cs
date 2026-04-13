@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.Design;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-
-namespace Healthcare_Management_System_with_Function
+﻿namespace Healthcare_Management_System_with_Function
 {
     internal class Program
     {
@@ -142,7 +138,7 @@ namespace Healthcare_Management_System_with_Function
             while (true)
             {
                 Console.Write("Choose option: ");
-                string input = Console.ReadLine();
+                string input = Console.ReadLine() ?? string.Empty;
 
                 if (int.TryParse(input, out option))
                 {
@@ -166,19 +162,31 @@ namespace Healthcare_Management_System_with_Function
         // case 1: register new patient
         static public string RegisterNewPatient()
         {
-            PatientIndex++;
-
             Console.WriteLine("Enter patient name: ");
-            patientNames[PatientIndex] = Console.ReadLine().Trim();
+            string name = Console.ReadLine() ?? string.Empty.Trim().ToUpper();
 
             Console.WriteLine("Enter the diagnose: ");
-            diagnoses[PatientIndex] = Console.ReadLine().Trim();
+            string diagnose = Console.ReadLine() ?? string.Empty.Trim().ToUpper();
                         
             Console.WriteLine("Enter the department: ");
-            departments[PatientIndex] = Console.ReadLine().Trim();
+            string department = Console.ReadLine() ?? string.Empty.Trim().ToUpper();
 
             Console.WriteLine("Enter the blood type: ");
-            bloodType[PatientIndex] = Console.ReadLine().ToUpper();
+            string blood = Console.ReadLine() ?? string.Empty.ToUpper();
+
+            if (PatientIndex >= patientNames.Length - 1)
+            {
+                Console.WriteLine("Patient registry full.");
+                PatientIndex--; 
+                return null;
+            }
+
+            PatientIndex++;
+
+            patientNames[PatientIndex] = name;
+            diagnoses[PatientIndex] = diagnose;
+            departments[PatientIndex] = department;
+            bloodType[PatientIndex] = blood;
 
             patientIDs[PatientIndex] = "P" + (PatientIndex + 1).ToString("D3");
 
@@ -200,7 +208,7 @@ namespace Healthcare_Management_System_with_Function
             int PatientFound = -1;
             for (int i = 0; i <= PatientIndex; i++)
             {
-                if (Input == patientIDs[i] || Input == patientNames[i])
+                if (Input == patientIDs[i].ToUpper() || Input == patientNames[i].ToUpper())
                 {
                     PatientFound = i;
                     break;
@@ -246,7 +254,7 @@ namespace Healthcare_Management_System_with_Function
                 {
 
                     Console.Write("Enter doctor name: ");
-                    string doctorName = Console.ReadLine().ToLower();
+                    string doctorName = Console.ReadLine() ?? string.Empty.ToLower();
 
                     bool doctorFound = false;
                     string assignedDoctor = "";
@@ -318,7 +326,7 @@ namespace Healthcare_Management_System_with_Function
                 string message = "";
 
                 Console.WriteLine("Was there a consultation fee? (yes/no)");
-                string fee = Console.ReadLine();
+                string fee = Console.ReadLine() ?? string.Empty;
 
                 if (fee.ToLower() == "yes")
                 {
@@ -328,7 +336,7 @@ namespace Healthcare_Management_System_with_Function
                     while (!amountValid)
                     {
                         Console.WriteLine("Enter consultation fee amount: ");
-                        string feeAmount = Console.ReadLine();
+                        string feeAmount = Console.ReadLine() ?? string.Empty;
 
 
                         if (double.TryParse(feeAmount, out amount))
@@ -354,7 +362,7 @@ namespace Healthcare_Management_System_with_Function
                 }
 
                 Console.WriteLine("Any medication charges? (yes/no)");
-                string medication = Console.ReadLine();
+                string medication = Console.ReadLine() ?? string.Empty;
 
                 if (medication.ToLower() == "yes")
                 {
@@ -365,7 +373,7 @@ namespace Healthcare_Management_System_with_Function
                     while (!priceValid)
                     {
                         Console.WriteLine("Enter medication charges: ");
-                        string medCharge = Console.ReadLine();
+                        string medCharge = Console.ReadLine() ?? string.Empty;
 
                         if (double.TryParse(medCharge, out price))
                         {
@@ -444,7 +452,7 @@ namespace Healthcare_Management_System_with_Function
 
             if (!Found)
             {
-                return "patient not found";
+                return "patient not found"; 
             }
 
             string message = "";
@@ -489,7 +497,7 @@ namespace Healthcare_Management_System_with_Function
         static public void ListAdmittedPatients()
         {
             Console.WriteLine("Filter by name keyword (press Enter to skip): ");
-            string keyword = Console.ReadLine().ToLower();
+            string keyword = Console.ReadLine() ?? string.Empty.ToLower();
 
             int Count = 0;
             double maxBilling = 0;
@@ -503,7 +511,7 @@ namespace Healthcare_Management_System_with_Function
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(keyword) && !patientNames[i].ToLower().Contains(keyword))
+                if (patientNames[i] != null && (string.IsNullOrEmpty(keyword) || patientNames[i].ToLower().Contains(keyword)))
                 {
                     continue;
                 }
@@ -533,9 +541,6 @@ namespace Healthcare_Management_System_with_Function
         // case 6: transfer patient to another doctor 
         static public void TransferPatient(string currentDoctor, string newDoctor)
         {
-            currentDoctor = Console.ReadLine().Trim();
-            newDoctor = Console.ReadLine().Trim();
-
             currentDoctor = currentDoctor.Replace("Dr ", "Dr. ");
             newDoctor = newDoctor.Replace("Dr ", "Dr. ");
 
@@ -585,11 +590,11 @@ namespace Healthcare_Management_System_with_Function
         // case 7: view most visited patients 
         static public void ViewMostVisitedPatients()
         {
-            for (int visit = 100; visit >= 0; visit--) //عداد تنازلي من الاكثر للاقل
+            for (int visit = 100; visit >= 0; visit--) // to display patients in descending order of visit count
             {
                 for (int i = 0; i <= PatientIndex; i++)
                 {
-                    if (visitCount[i] == visit) //ترتيب المرضى على حسب عدد مرات الزيارة
+                    if (visitCount[i] == visit) // to display all patients with the same visit count together
                     {
                         Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nVisit count: " + visitCount[i]);
                         Console.WriteLine("----------------------------");
@@ -601,13 +606,10 @@ namespace Healthcare_Management_System_with_Function
         // case 8: search patients by department
         static public void SearchPatientsByDepartment(string department)
         {
-            Console.WriteLine("Enter department name: ");
-            string dept = department.ToUpper();
-
             bool patFound = false;
             for (int i = 0; i <= PatientIndex; i++)
             {
-                if (departments[i] != null && departments[i].ToLower().Contains(dept.ToLower()))
+                if (departments[i] != null && departments[i].ToLower().Contains(department.ToLower()))
                 {
                     patFound = true;
 
@@ -644,7 +646,7 @@ namespace Healthcare_Management_System_with_Function
             while (true)
             {
                 Console.WriteLine("Enter your choice: ");
-                string choice = Console.ReadLine();
+                string choice = Console.ReadLine() ?? string.Empty;
 
                 if (int.TryParse(choice, out option))
                 {
@@ -705,13 +707,23 @@ namespace Healthcare_Management_System_with_Function
             {
 
                 Console.WriteLine("Enter patient ID or patient name: ");
-                string patientInfo = Console.ReadLine();
+                string patientInfo = Console.ReadLine() ?? string.Empty;
 
                 int index = FindPatient(patientInfo);
 
                 if (index != -1)
                 {
                     Console.WriteLine("Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index] + ",\nTotal billing amount: " + Math.Round(billingAmount[index], 2) + " OMR");
+
+                    Random rand = new Random(); // to generate random invoice number for demonstration purposes
+                    int randomDiscount = rand.Next(5, 21); // Generate a random invoice number between 5 and 20
+
+                    double discountAmount = billingAmount[index] * (randomDiscount / 100); // Calculate the discount amount based on the random percentage
+
+                    double finalAmount = billingAmount[index] - discountAmount; // Calculate the final amount after applying the discount
+                    finalAmount = Math.Round(finalAmount, 2); // Round the final amount to 2 decimal places
+
+                    Console.WriteLine("Discount applied: " + randomDiscount + " -Amount after discount: "+ finalAmount + " OMR"); // Display the random invoice number
                 }
 
                 else
@@ -727,7 +739,7 @@ namespace Healthcare_Management_System_with_Function
         static public bool ExitProgram()
         {
             Console.WriteLine("Are you sure you want to exit? (yes/no): ");
-            string confirmExit = Console.ReadLine();
+            string confirmExit = Console.ReadLine() ?? string.Empty;
 
             if (confirmExit == "yes")
             {
@@ -749,12 +761,12 @@ namespace Healthcare_Management_System_with_Function
             lastDoctorIndex++;
 
             Console.WriteLine("Enter doctor full name: ");
-            doctorNames[lastDoctorIndex] = Console.ReadLine().Trim();
+            doctorNames[lastDoctorIndex] = Console.ReadLine().Trim().ToUpper();
 
             while (string.IsNullOrEmpty(doctorNames[lastDoctorIndex]))
             {
                 Console.WriteLine("Doctor name cannot be empty. Please enter again:");
-                doctorNames[lastDoctorIndex] = Console.ReadLine().Trim();
+                doctorNames[lastDoctorIndex] = Console.ReadLine() ?? string.Empty.Trim();
             }
 
             for(int i = 0; i < lastDoctorIndex; i++)
@@ -772,7 +784,7 @@ namespace Healthcare_Management_System_with_Function
             Console.WriteLine("Enter available slots for this doctor: ");
             int slots;
 
-            while (!int.TryParse(Console.ReadLine(), out slots) || slots < 1 || slots > 50)
+            while (!int.TryParse(Console.ReadLine() ?? string.Empty, out slots) || slots < 1 || slots > 50)
             {
                 Console.WriteLine("Invalid slot count. Doctor not registered.");
             }
@@ -790,16 +802,13 @@ namespace Healthcare_Management_System_with_Function
 
             double maxSalary = 0;
             string DoctorName = "";
-
+            const double BASE_SALARY = 300; // base salary for all doctors
+            const double BONUS_PER_VISIT = 15; // bonus amount added to salary for each patient assigned
             for (int i = 0; i <= lastDoctorIndex; i++)
             {
-                double salary = 300; // Base salary for each doctor
+                double salary = Math.Round(BASE_SALARY + (visitCount[i] * BONUS_PER_VISIT), 2);
 
-                double PerVisitBonus = doctorVisitCount[i] * 15; // Assuming a fixed amount per patient visit
-
-                double TotalSalary = Math.Round(salary + PerVisitBonus, 2);
-
-                double newMax = Math.Max(maxSalary, TotalSalary);
+                double newMax = Math.Max(maxSalary, salary);
 
                 if (newMax > maxSalary)
                 {
@@ -807,7 +816,7 @@ namespace Healthcare_Management_System_with_Function
                     DoctorName = doctorNames[i];
                 }
 
-                Console.WriteLine("Dr.: " + doctorNames[i] + "| Total Patients Assigned: " + doctorVisitCount[i] + "| Salary: " + TotalSalary.ToString() + " OMR");
+                Console.WriteLine("Dr.: " + doctorNames[i] + "| Total Patients Assigned: " + doctorVisitCount[i] + "| Salary: " + salary.ToString() + " OMR");
 
             }
 
@@ -819,10 +828,11 @@ namespace Healthcare_Management_System_with_Function
         // main function to run the program
         static void Main(string[] args)
         {
+            SeedData();
+
             bool exit = false;
             while (exit == false)
             {
-                SeedData();
 
                 DisplayMenu();
 
@@ -841,7 +851,7 @@ namespace Healthcare_Management_System_with_Function
                     case 2:
 
                         Console.WriteLine("Enter patient ID or patient name: ");
-                        string patientInfo = Console.ReadLine();
+                        string patientInfo = Console.ReadLine() ?? string.Empty;
 
                         string AdmittedOutput = GetAdmitted(patientInfo);
 
@@ -852,7 +862,7 @@ namespace Healthcare_Management_System_with_Function
                     case 3:
 
                         Console.WriteLine("Enter patient ID or patient name: ");
-                        string patientInfoDischarge = Console.ReadLine();
+                        string patientInfoDischarge = Console.ReadLine() ?? string.Empty;
 
                         // call discharge function here and print output
                         string DischargeOutput = DischargePatient(patientInfoDischarge);
@@ -863,7 +873,7 @@ namespace Healthcare_Management_System_with_Function
                     case 4:
 
                         Console.WriteLine("Enter patient ID or patient name: ");
-                        string patientInfoSearch = Console.ReadLine();
+                        string patientInfoSearch = Console.ReadLine() ?? string.Empty;
 
                         // call search function here and print output
                         string searchOutput = SearchPatient(patientInfoSearch);
@@ -880,10 +890,10 @@ namespace Healthcare_Management_System_with_Function
                     case 6:
 
                         Console.WriteLine("Enter current doctor name: ");
-                        string currentDoc = Console.ReadLine();
+                        string currentDoc = Console.ReadLine() ?? string.Empty;
 
                         Console.WriteLine("Enter new doctor name: ");
-                        string newDoc = Console.ReadLine();
+                        string newDoc = Console.ReadLine() ?? string.Empty;
 
                         TransferPatient(currentDoc, newDoc);
 
@@ -897,7 +907,8 @@ namespace Healthcare_Management_System_with_Function
 
                     case 8:
 
-                        string dept = Console.ReadLine();
+                        Console.WriteLine("Enter department name: ");
+                        string dept = Console.ReadLine() ?? string.Empty.ToUpper();
 
                         SearchPatientsByDepartment(dept);
 

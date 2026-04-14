@@ -86,7 +86,7 @@
 
             lastDoctorIndex++;
 
-            doctorNames[lastDoctorIndex] = "Dr. Noor";
+            doctorNames[lastDoctorIndex] = "Noor";
             doctorAvailableSlots[lastDoctorIndex] = 5;
             doctorVisitCount[lastDoctorIndex] = 0;
 
@@ -94,7 +94,7 @@
 
             lastDoctorIndex++;
 
-            doctorNames[lastDoctorIndex] = "Dr. Salem";
+            doctorNames[lastDoctorIndex] = "Salem";
             doctorAvailableSlots[lastDoctorIndex] = 3;
             doctorVisitCount[lastDoctorIndex] = 0;
 
@@ -102,7 +102,7 @@
 
             lastDoctorIndex++;
 
-            doctorNames[lastDoctorIndex] = "Dr. Hana";
+            doctorNames[lastDoctorIndex] = "Hana";
             doctorAvailableSlots[lastDoctorIndex] = 8;
             doctorVisitCount[lastDoctorIndex] = 0;
 
@@ -163,13 +163,13 @@
         static public string RegisterNewPatient()
         {
             Console.WriteLine("Enter patient name: ");
-            string name = Console.ReadLine() ?? string.Empty.Trim().ToUpper();
+            string name = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
 
             Console.WriteLine("Enter the diagnose: ");
-            string diagnose = Console.ReadLine() ?? string.Empty.Trim().ToUpper();
+            string diagnose = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
                         
             Console.WriteLine("Enter the department: ");
-            string department = Console.ReadLine() ?? string.Empty.Trim().ToUpper();
+            string department = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
 
             Console.WriteLine("Enter the blood type: ");
             string blood = Console.ReadLine() ?? string.Empty.ToUpper();
@@ -254,7 +254,7 @@
                 {
 
                     Console.Write("Enter doctor name: ");
-                    string doctorName = Console.ReadLine() ?? string.Empty.ToLower();
+                    string doctorName = Console.ReadLine() ?? string.Empty;
 
                     bool doctorFound = false;
                     string assignedDoctor = "";
@@ -262,7 +262,7 @@
 
                     for (int i = 0; i <= lastDoctorIndex; i++)
                     {
-                        if (doctorNames[i].ToLower() == doctorName)
+                        if (doctorNames[i].ToLower() == doctorName.ToLower())
                         {
                             doctorFound = true;
 
@@ -277,7 +277,7 @@
 
                             else
                             {
-                                return "Dr. " + doctorNames[i] + " has no available slots at this time.";
+                                return  doctorNames[i] + " has no available slots at this time.";
                             }
 
                             break;
@@ -298,7 +298,7 @@
 
                     Console.WriteLine("==============================================================================");
                     return "Patient admitted successfully and assigned to " + assignedDoctor + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times." + 
-                            "\nDr." + assignedDoctor + " now has: " + SlotsAvailable + "slot(s) remaining.";
+                            "\n" + assignedDoctor + " now has: " + SlotsAvailable + "slot(s) remaining.";
                 }
             }
             return "patient not found";
@@ -497,7 +497,7 @@
         static public void ListAdmittedPatients()
         {
             Console.WriteLine("Filter by name keyword (press Enter to skip): ");
-            string keyword = Console.ReadLine() ?? string.Empty.ToLower();
+            string keyword = (Console.ReadLine() ?? string.Empty).ToLower();
 
             int Count = 0;
             double maxBilling = 0;
@@ -511,13 +511,11 @@
                     continue;
                 }
 
-                if (patientNames[i] != null && (string.IsNullOrEmpty(keyword) || patientNames[i].ToLower().Contains(keyword)))
-                {
+                if (!string.IsNullOrEmpty(keyword) && !patientNames[i].ToLower().Contains(keyword.ToLower()))
                     continue;
-                }
 
-                
-                    HasAdmitted = true;
+
+                HasAdmitted = true;
                     Count++;
                     maxBilling = Math.Max(maxBilling, billingAmount[i]); // to track the running maximum
                 Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nAdmission status: " + admitted[i] + ",\nVisit count: " + visitCount[i] + ",\ntotal billing amount: " + billingAmount[i] + ",\nAssigned doctor: " + assignedDoctors[i] + ",\nAdmitted since: " + lastVisitDate[i]);
@@ -723,7 +721,7 @@
                     double finalAmount = billingAmount[index] - discountAmount; // Calculate the final amount after applying the discount
                     finalAmount = Math.Round(finalAmount, 2); // Round the final amount to 2 decimal places
 
-                    Console.WriteLine("Discount applied: " + randomDiscount + " -Amount after discount: "+ finalAmount + " OMR"); // Display the random invoice number
+                    Console.WriteLine("Discount applied: " + randomDiscount + "% - Amount after discount: "+ finalAmount + " OMR"); // Display the random invoice number
                 }
 
                 else
@@ -766,7 +764,7 @@
             while (string.IsNullOrEmpty(doctorNames[lastDoctorIndex]))
             {
                 Console.WriteLine("Doctor name cannot be empty. Please enter again:");
-                doctorNames[lastDoctorIndex] = Console.ReadLine() ?? string.Empty.Trim();
+                doctorNames[lastDoctorIndex] = (Console.ReadLine() ?? string.Empty).Trim();
             }
 
             for(int i = 0; i < lastDoctorIndex; i++)
@@ -806,7 +804,7 @@
             const double BONUS_PER_VISIT = 15; // bonus amount added to salary for each patient assigned
             for (int i = 0; i <= lastDoctorIndex; i++)
             {
-                double salary = Math.Round(BASE_SALARY + (visitCount[i] * BONUS_PER_VISIT), 2);
+                double salary = Math.Round(BASE_SALARY + (doctorVisitCount[i] * BONUS_PER_VISIT), 2);
 
                 double newMax = Math.Max(maxSalary, salary);
 

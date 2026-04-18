@@ -1,27 +1,24 @@
-﻿namespace Healthcare_Management_System_with_Function
+﻿namespace Healthcare_Management_System_with_Functions
 {
     internal class Program
     {
         // global scope array of data storage
 
-        static string[] patientNames = new string[100];
-        static string[] patientIDs = new string[100];
-        static string[] diagnoses = new string[100];
-        static bool[] admitted = new bool[100];       // true = currently admitted
-        static string[] assignedDoctors = new string[100];
-        static string[] departments = new string[100];     // e.g. "Cardiology", "Orthopedics"
-        static int[] visitCount = new int[100];        // how many times admitted
-        static double[] billingAmount = new double[100];     // total fees owed
-        static DateTime[] lastVisitDate = new DateTime[100];
-        static DateTime[] lastDischargeDate = new DateTime[100];
-        static int[] daysInHospital = new int[100];
-        static string[] bloodType = new string[100];
-        static int PatientIndex = -1;
-
-        static string[] doctorNames = new string[50]; // Stores the registered name of each doctor
-        static int[] doctorAvailableSlots = new int[50]; // Stores the Available Slots of each doctor
-        static int[] doctorVisitCount = new int[50]; // Stores the number of patients assigned to each doctor
-        static int lastDoctorIndex = -1; // Tracks the current index for doctor registration
+        static List<string> patientNames = new List<string>(); // to store patient names, using List for dynamic sizing
+        static List<string> patientIDs = new List<string>(); // to store patient IDs, using List for dynamic sizing
+        static List<string> diagnoses = new List<string>(); // to store patient diagnoses, using List for dynamic sizing
+        static List<bool> admitted = new List<bool>(); // to store admission status, using List for dynamic sizing
+        static List<string> assignedDoctors = new List<string>(); // to store assigned doctor names, using List for dynamic sizing
+        static List<string> departments = new List<string>(); // to store patient departments, using List for dynamic sizing
+        static List<int> visitCount = new List<int>(); // to store patient visit counts, using List for dynamic sizing
+        static List<double> billingAmount = new List<double>(); // to store patient billing amounts, using List for dynamic sizing
+        static List<DateTime> lastVisitDate = new List<DateTime>(); // to store patient last visit dates, using List for dynamic sizing
+        static List<DateTime> lastDischargeDate = new List<DateTime>(); // to store patient last discharge dates, using List for dynamic sizing
+        static List<int> daysInHospital = new List<int>(); // to store total days in hospital for each patient, using List for dynamic sizing
+        static List<string> bloodType = new List<string>(); // to store patient blood types, using List for dynamic sizing
+        static List<string> doctorNames = new List<string>(); // to store doctor names, using List for dynamic sizing
+        static List<int> doctorAvailableSlots = new List<int>(); // to store doctor available slots, using List for dynamic sizing
+        static List<int> doctorVisitCount = new List<int>(); // to store doctor visit counts, using List for dynamic sizing
 
 
 
@@ -33,78 +30,66 @@
         {
             //Patient 1
 
-            PatientIndex++;
-
-            patientNames[PatientIndex] = "Ali Hassan";
-            patientIDs[PatientIndex] = "P001";
-            diagnoses[PatientIndex] = "Flu";
-            admitted[PatientIndex] = false;
-            assignedDoctors[PatientIndex] = "";
-            departments[PatientIndex] = "General";
-            visitCount[PatientIndex] = 2;
-            billingAmount[PatientIndex] = 0;
-            lastVisitDate[PatientIndex] = DateTime.Parse("2025-01-10");
-            lastDischargeDate[PatientIndex] = DateTime.Parse("2025-01-15");
-            daysInHospital[PatientIndex] = 12;
-            bloodType[PatientIndex]  = "A+";
+            patientNames.Add("Ali Hassan");
+            patientIDs.Add("P001");
+            diagnoses.Add("Flu");
+            admitted.Add(false);
+            assignedDoctors.Add("");
+            departments.Add("General");
+            visitCount.Add(2);
+            billingAmount.Add(0);
+            lastVisitDate.Add(DateTime.Parse("2025-01-10"));
+            lastDischargeDate.Add(DateTime.Parse("2025-01-15"));
+            daysInHospital.Add(12);
+            bloodType.Add("A+");
 
             //Patient 2
 
-            PatientIndex++;
-
-            patientNames[PatientIndex] = "Sara Ahmed";
-            patientIDs[PatientIndex] = "P002";
-            diagnoses[PatientIndex] = "Fracture";
-            admitted[PatientIndex] = true;
-            assignedDoctors[PatientIndex] = "Dr. Noor";
-            departments[PatientIndex] = "Orthopedics";
-            visitCount[PatientIndex] = 4;
-            billingAmount[PatientIndex] = 0;
-            lastVisitDate[PatientIndex] = DateTime.Parse("2025-03-02");
-            lastDischargeDate[PatientIndex] = DateTime.MinValue;
-            daysInHospital[PatientIndex] = 8;
-            bloodType[PatientIndex] = "O-";
+            patientNames.Add("Sara Ahmed");
+            patientIDs.Add("P002");
+            diagnoses.Add("Fracture");
+            admitted.Add(true);
+            assignedDoctors.Add("Noor");
+            departments.Add("Orthopedics");
+            visitCount.Add(4);
+            billingAmount.Add(0);
+            lastVisitDate.Add(DateTime.Parse("2025-03-02"));
+            lastDischargeDate.Add(DateTime.MinValue);
+            daysInHospital.Add(8);
+            bloodType.Add("O-");
 
             //Patient 3
 
-            PatientIndex++;
-
-            patientNames[PatientIndex] = "Omar Khalid";
-            patientIDs[PatientIndex] = "P003";
-            diagnoses[PatientIndex] = "Diabetes";
-            admitted[PatientIndex] = false;
-            assignedDoctors[PatientIndex] = "";
-            departments[PatientIndex] = "Cardiology";
-            visitCount[PatientIndex] = 1;
-            billingAmount[PatientIndex] = 0;
-            lastVisitDate[PatientIndex] = DateTime.Parse("2024-12-20");
-            lastDischargeDate[PatientIndex] = DateTime.Parse("2024-12-28");
-            daysInHospital[PatientIndex] = 5;
-            bloodType[PatientIndex] = "B+";
+            patientNames.Add("Omar Khalid");
+            patientIDs.Add("P003");
+            diagnoses.Add("Diabetes");
+            admitted.Add(false);
+            assignedDoctors.Add("");
+            departments.Add("Cardiology");
+            visitCount.Add(1);
+            billingAmount.Add(0);
+            lastVisitDate.Add(DateTime.Parse("2024-12-20"));
+            lastDischargeDate.Add(DateTime.Parse("2024-12-28"));
+            daysInHospital.Add(5);
+            bloodType.Add("B+");
 
             //Doctor 1
 
-            lastDoctorIndex++;
-
-            doctorNames[lastDoctorIndex] = "Noor";
-            doctorAvailableSlots[lastDoctorIndex] = 5;
-            doctorVisitCount[lastDoctorIndex] = 0;
+            doctorNames.Add("Noor");
+            doctorAvailableSlots.Add(5);
+            doctorVisitCount.Add(0);
 
             //Doctor 2
 
-            lastDoctorIndex++;
-
-            doctorNames[lastDoctorIndex] = "Salem";
-            doctorAvailableSlots[lastDoctorIndex] = 3;
-            doctorVisitCount[lastDoctorIndex] = 0;
+            doctorNames.Add("Salem");
+            doctorAvailableSlots.Add(3);
+            doctorVisitCount.Add(0);
 
             //Doctor 3
 
-            lastDoctorIndex++;
-
-            doctorNames[lastDoctorIndex] = "Hana";
-            doctorAvailableSlots[lastDoctorIndex] = 8;
-            doctorVisitCount[lastDoctorIndex] = 0;
+            doctorNames.Add("Hana");
+            doctorAvailableSlots.Add(8);
+            doctorVisitCount.Add(0);
 
         }
 
@@ -163,72 +148,65 @@
         static public string RegisterNewPatient()
         {
             Console.WriteLine("Enter patient name: ");
-            string name = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
+            string name = Console.ReadLine().ToLower();
 
             Console.WriteLine("Enter the diagnose: ");
-            string diagnose = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
-                        
+            string diagnose = Console.ReadLine().ToLower();
+
             Console.WriteLine("Enter the department: ");
-            string department = (Console.ReadLine() ?? string.Empty).Trim().ToUpper();
+            string department = Console.ReadLine().ToLower();
 
             Console.WriteLine("Enter the blood type: ");
-            string blood = Console.ReadLine() ?? string.Empty.ToUpper();
+            string blood = Console.ReadLine().ToUpper();
 
-            if (PatientIndex >= patientNames.Length - 1)
-            {
-                Console.WriteLine("Patient registry full.");
-                PatientIndex--; 
-                return null;
-            }
-
-            PatientIndex++;
-
-            patientNames[PatientIndex] = name;
-            diagnoses[PatientIndex] = diagnose;
-            departments[PatientIndex] = department;
-            bloodType[PatientIndex] = blood;
-
-            patientIDs[PatientIndex] = "P" + (PatientIndex + 1).ToString("D3");
-
-            admitted[PatientIndex] = false;
-            assignedDoctors[PatientIndex] = "";
-            visitCount[PatientIndex] = 0;
-            billingAmount[PatientIndex] = 0;
-            lastDischargeDate[PatientIndex] = DateTime.MinValue;
-            lastVisitDate[PatientIndex] = DateTime.MinValue;
-            daysInHospital[PatientIndex] = 0;
-            return patientIDs[PatientIndex];
+            // check if patient already exists in the system by name or ID to prevent duplicates
+            patientNames.Add(name);
+            diagnoses.Add(diagnose);
+            departments.Add(department);
+            bloodType.Add(blood);
+            admitted.Add(false);
+            assignedDoctors.Add("");
+            visitCount.Add(0);
+            billingAmount.Add(0);
+            lastDischargeDate.Add(DateTime.MinValue);
+            lastVisitDate.Add(DateTime.MinValue);
+            daysInHospital.Add(0);
+            // generate patient ID based on the count of existing patients, formatted with leading zeros for consistency
+            string newID = "P" + (patientIDs.Count + 1).ToString("D3");
+            patientIDs.Add(newID);
+            Console.WriteLine("Patient registered successfully. ID: " + newID);
+            return newID;
         }
 
         // helper function to find patient 
         static public int FindPatient(string searchInput)
         {
-            string Input = searchInput.ToUpper();
-
-            int PatientFound = -1;
-            for (int i = 0; i <= PatientIndex; i++)
+            for (int i = 0; i < patientNames.Count; i++)
             {
-                if (Input == patientIDs[i].ToUpper() || Input == patientNames[i].ToUpper())
+                if (patientNames[i].Equals(searchInput, StringComparison.OrdinalIgnoreCase) || patientIDs[i].Equals(searchInput, StringComparison.OrdinalIgnoreCase))
                 {
-                    PatientFound = i;
-                    break;
+                    return i;
                 }
             }
-            return PatientFound;  // not found
+
+            return -1;
         }
 
         // helper function to check if patient is currently admitted
         static public bool IsAdmitted(string InputSearch, out bool isFound)
         {
-            int FoundPatient = FindPatient(InputSearch);
-            
-            if (FoundPatient != -1)
+            int index = FindPatient(InputSearch);
+
+            if (index != -1)
             {
-                isFound = true; // patient found
-                return admitted[FoundPatient] ; // return true if admitted, false if not
+                isFound = true;
+                return admitted[index];
             }
-            isFound = false; // patient not found
-            return false;   // invalid index
+            else
+            {
+                isFound = false;
+                return false;
+            }
         }
 
         // case 2: admit patient
@@ -254,41 +232,34 @@
                 {
 
                     Console.Write("Enter doctor name: ");
-                    string doctorName = Console.ReadLine() ?? string.Empty;
+                    string doctorName = (Console.ReadLine() ?? string.Empty).ToLower().Trim();
 
-                    bool doctorFound = false;
                     string assignedDoctor = "";
                     int SlotsAvailable = 0;
 
-                    for (int i = 0; i <= lastDoctorIndex; i++)
-                    {
-                        if (doctorNames[i].ToLower() == doctorName.ToLower())
-                        {
-                            doctorFound = true;
+                    int doctIndex = doctorNames.FindIndex(d => d.Equals(doctorName, StringComparison.OrdinalIgnoreCase));
 
-                            if (doctorAvailableSlots[i] > 0)
-                            {
-                                doctorAvailableSlots[i]--;
-                                SlotsAvailable = doctorAvailableSlots[i];
-                                doctorVisitCount[i]++;
-                                assignedDoctor = doctorNames[i]; // to get the correct formatting of the name
-                                
-                            }
-
-                            else
-                            {
-                                return  doctorNames[i] + " has no available slots at this time.";
-                            }
-
-                            break;
-                        }
-                    }
-
-                    if (!doctorFound)
+                    if (doctIndex == -1)
                     {
                         return "Doctor not found in the system. Please register the doctor first.";
                     }
 
+                    if (doctorAvailableSlots[doctIndex] <= 0)
+                    {
+                        return doctorNames[doctIndex] + " has no available slots at this time.";
+
+                    }
+
+                    // if doctor is found and has available slots, assign doctor to patient and update slots and visit count
+                    doctorAvailableSlots[doctIndex]--;
+                    doctorVisitCount[doctIndex]++;
+
+                    SlotsAvailable = doctorAvailableSlots[doctIndex]; // to display remaining slots after assignment
+                    assignedDoctor = doctorNames[doctIndex];
+
+                    assignedDoctors[index] = assignedDoctor; // assign doctor to patient only if doctor is found and has available slots
+
+                    // update patient admission status, visit count, and last visit date
                     visitCount[index]++;
                     lastVisitDate[index] = DateTime.Now;
                     lastDischargeDate[index] = DateTime.MinValue;
@@ -297,12 +268,11 @@
                     string visitMessage = visitCount[index] > 1 ? "This patient has been admitted " + visitCount[index] + " times." : "This is the first visit.";
 
                     Console.WriteLine("==============================================================================");
-                    return "Patient admitted successfully and assigned to " + assignedDoctor + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times." + 
-                            "\n" + assignedDoctor + " now has: " + SlotsAvailable + "slot(s) remaining.";
+                    return "Patient admitted successfully and assigned to Dr. " + assignedDoctor + "\nThe admission date: " + lastVisitDate[index].ToString("yyyy-MM-dd HH:mm") + "\nThis patient has been admitted " + visitCount[index] + " times." +
+                            "\n" + assignedDoctor + " now has: " + SlotsAvailable + " slot(s) remaining.";
                 }
             }
             return "patient not found";
-
         }
 
         // case 3: discharge patient
@@ -311,136 +281,108 @@
             bool Found;
             bool AdmittedStatus = IsAdmitted(InputSearch, out Found);
             int index = FindPatient(InputSearch);
+
             if (!Found)
             {
                 return "patient not found";
             }
-            if (index != -1)
+
+            if (!AdmittedStatus)
             {
-                if (!AdmittedStatus)
+                return "Patient is not currently admitted.";
+            }
+
+            double visitCharge = 0; // fee for this Discharge
+            string message = "";
+
+            Console.WriteLine("Was there a consultation fee? (yes/no)");
+            string fee = Console.ReadLine() ?? string.Empty;
+
+            if (fee.Trim().Equals("yes", StringComparison.OrdinalIgnoreCase))
+            {
+                while (true)
                 {
-                    return "Patient is not currently admitted.";
-                }
+                    Console.WriteLine("Enter consultation fee amount: ");
+                    string feeAmount = Console.ReadLine() ?? string.Empty;
 
-                double visitCharge = 0; // fee for this Discharge
-                string message = "";
-
-                Console.WriteLine("Was there a consultation fee? (yes/no)");
-                string fee = Console.ReadLine() ?? string.Empty;
-
-                if (fee.ToLower() == "yes")
-                {
-                    double amount = 0;
-                    bool amountValid = false;
-
-                    while (!amountValid)
+                    if (double.TryParse(feeAmount, out double amount) && amount > 0)
                     {
-                        Console.WriteLine("Enter consultation fee amount: ");
-                        string feeAmount = Console.ReadLine() ?? string.Empty;
-
-
-                        if (double.TryParse(feeAmount, out amount))
-                        {
-
-                            if (amount > 0)
-                            {
-                                billingAmount[index] += amount;
-                                visitCharge += amount;
-                                amountValid = true;
-                            }
-                            else
-                            {
-                                message += "fee amount must be positive\n";
-                            }
-                        }
-
-                        else
-                        {
-                            message += "Invalid amount entered. No charge added.\n";
-                        }
-                    }
-                }
-
-                Console.WriteLine("Any medication charges? (yes/no)");
-                string medication = Console.ReadLine() ?? string.Empty;
-
-                if (medication.ToLower() == "yes")
-                {
-
-                    double price = 0;
-                    bool priceValid = false;
-
-                    while (!priceValid)
-                    {
-                        Console.WriteLine("Enter medication charges: ");
-                        string medCharge = Console.ReadLine() ?? string.Empty;
-
-                        if (double.TryParse(medCharge, out price))
-                        {
-                            if (price > 0)
-                            {
-                                billingAmount[index] += price;
-                                visitCharge += price;
-                                priceValid = true;
-                            }
-                            else
-                            {
-                                message += "medication price must be positive\n";
-                            }
-                        }
-                        else
-                        {
-                            message += "Invalid amount entered. No charge added.\n";
-                        }
-                    }
-                }
-
-                if (billingAmount[index] > 0)
-                {
-
-                    message += "Total charges added this visit: " + Math.Round(visitCharge, 2) + " OMR\n" + "Total billing amount for this patient: " + Math.Round(billingAmount[index], 2) + " OMR\n";
-                }
-
-
-                else
-                {
-                    message += "No charges recorded\n";
-                }
-
-                bool doctorFound = false;
-                int AvailableSlots = 0;
-                for (int i = 0; i <= lastDoctorIndex; i++)
-                {
-                    if (assignedDoctors[index].ToLower().Trim() == doctorNames[i].ToLower().Trim())
-                    {
-                        doctorFound = true;
-                        doctorAvailableSlots[i]++;
-                        AvailableSlots = doctorAvailableSlots[i];
-                        doctorNames[i] = doctorNames[i].Replace("Dr ", "Dr. ");
-                        message += doctorNames[i] + " now has: " + AvailableSlots + " slot(s) available.";
+                        billingAmount[index] += amount;
+                        visitCharge += amount;
                         break;
                     }
 
+                    else
+                    {
+                        message += "Invalid amount entered. Fee amount must be positive.\n";
+
+                    }
                 }
-
-                if(doctorFound == false)
-                {
-                    message += "Warning: assigned doctor not found in registry.Slots not updated.";
-                }
-
-                admitted[index] = false;
-                lastDischargeDate[index] = DateTime.Now;
-                TimeSpan days = DateTime.Now - lastVisitDate[index];
-                daysInHospital[index] += (int)days.TotalDays;
-
-                message += "\nPatient discharged successfully, with total days in hospital: " + daysInHospital[index];
-
-                assignedDoctors[index] = "";
-
-                Console.WriteLine("==============================================================================");
-                return message;
             }
-            return "patient not found";
+
+            Console.WriteLine("Any medication charges? (yes/no)");
+            string medication = Console.ReadLine() ?? string.Empty;
+
+            if (medication.Trim().Equals("yes", StringComparison.OrdinalIgnoreCase))
+            {
+
+                while (true)
+                {
+                    Console.WriteLine("Enter medication charges: ");
+                    string medCharge = Console.ReadLine() ?? string.Empty;
+
+                    if (double.TryParse(medCharge, out double price) && price > 0)
+                    {
+
+                        billingAmount[index] += price;
+                        visitCharge += price;
+                        break;
+                    }
+                    else
+                    {
+                        message += "Invalid amount entered. Medication price must be positive\n";
+                    }
+                }
+            }
+
+            if (billingAmount[index] > 0)
+            {
+                message += "Total charges added this visit: " + Math.Round(visitCharge, 2) + " OMR\n" + "Total billing amount for this patient: " + Math.Round(billingAmount[index], 2) + " OMR\n";
+            }
+
+            else
+            {
+                message += "No charges recorded\n";
+            }
+
+            // find the assigned doctor index to update available slots and visit count
+            int doctorIndex = doctorNames.FindIndex(d => d.ToLower() == assignedDoctors[index].ToLower());
+
+            if (doctorIndex != -1)
+            {
+                // update doctor available slots and visit count when patient is discharged
+                doctorAvailableSlots[doctorIndex]++;
+                int AvailableSlots = doctorAvailableSlots[doctorIndex];
+                string doctorDisplay = doctorNames[doctorIndex].Replace("Dr ", "Dr. ");
+                message += "Dr. " + doctorDisplay + " now has: " + AvailableSlots + " slot(s) available.";
+            }
+
+            if (doctorIndex == -1 && !string.IsNullOrEmpty(assignedDoctors[index]))
+            {
+                message += "Warning: assigned doctor not found in registry.Slots not updated."; // to handle edge case where assigned doctor name was manually entered but does not match any registered doctor, preventing system from updating slots and avoiding potential errors
+            }
+
+            // update patient to discharge
+            admitted[index] = false;
+            lastDischargeDate[index] = DateTime.Now;
+            daysInHospital[index] += (int)Math.Floor((DateTime.Now - lastVisitDate[index]).TotalDays);
+
+            message += "\nPatient discharged successfully, with total days in hospital: " + daysInHospital[index];
+
+            assignedDoctors[index] = "";
+
+            Console.WriteLine("==============================================================================");
+            return message;
         }
 
         // case 4: search patient 
@@ -452,44 +394,40 @@
 
             if (!Found)
             {
-                return "patient not found"; 
+                return "patient not found";
             }
 
-            string message = "";
-            if (index != -1)
+            string status = admitted[index] ? "Admitted" : "Not Admitted";
+            Console.WriteLine("==============================================================================");
+            string message = "Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index].ToUpper() + ",\nDiagnosis: " + diagnoses[index] +
+                                " ( " + diagnoses[index].Length + " characters)" + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + status +
+                                ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + Math.Round(billingAmount[index], 2).ToString() +
+                                ",\nBlood Type: " + bloodType[index] + ",\nTotal Days in Hospital: " + daysInHospital[index];
+
+            if (AdmittedStatus)
             {
-
-                string status = admitted[index] ? "Admitted" : "Not Admitted";
-                message += "Patient name: " + patientNames[index] + ",\nPatient ID: " + patientIDs[index].ToUpper() + ",\nDiagnosis: " + diagnoses[index] +
-                                 " ( " + diagnoses[index].Length + " characters)" + ",\nDepartment: " + departments[index] + ",\nAdmission status: " + status +
-                                 ",\nVisit count: " + visitCount[index] + ",\ntotal billing amount: " + Convert.ToString(Math.Round(billingAmount[index], 2)) +
-                                 ",\nBlood Type: " + bloodType[index] + ",\nTotal Days in Hospital: " + daysInHospital[index];
-
-                if (AdmittedStatus)
-                {
-                    message += "Assigned doctor: " + assignedDoctors[index] + "\n";
-                }
-
-                if (lastVisitDate[index] != DateTime.MinValue)
-                {
-                    message += "\nLast visit date: " + lastVisitDate[index].ToString("yyyy-MM-dd");
-                }
-                else
-                {
-                    message += "\nNo admission recorded.";
-                }
-
-                if (lastDischargeDate[index] != DateTime.MinValue)
-                {
-                    message += "\nLast discharge date: " + lastDischargeDate[index].ToString("yyyy-MM-dd");
-                }
-
-                else
-                {
-                    message += "\nThe patient still admitted.";
-                }
-
+                message += "\n" + "Assigned doctor: " + assignedDoctors[index];
             }
+
+            if (lastVisitDate[index] != DateTime.MinValue)
+            {
+                message += "\nLast visit date: " + lastVisitDate[index].ToString("yyyy-MM-dd");
+            }
+            else
+            {
+                message += "\nNo admission recorded.";
+            }
+
+            if (lastDischargeDate[index] != DateTime.MinValue)
+            {
+                message += "\nLast discharge date: " + lastDischargeDate[index].ToString("yyyy-MM-dd");
+            }
+
+            else
+            {
+                message += "\nThe patient still admitted.";
+            }
+
             return message;
         }
 
@@ -504,21 +442,20 @@
             bool HasAdmitted = false;
 
 
-            for (int i = 0; i <= PatientIndex; i++)
+            for (int i = 0; i < patientNames.Count; i++)
             {
                 if (!admitted[i])
                 {
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(keyword) && !patientNames[i].ToLower().Contains(keyword.ToLower()))
+                if (!string.IsNullOrEmpty(keyword) && !patientNames[i].ToLower().Contains(keyword) && patientIDs[i].ToLower().Contains(keyword))
                     continue;
 
-
                 HasAdmitted = true;
-                    Count++;
-                    maxBilling = Math.Max(maxBilling, billingAmount[i]); // to track the running maximum
-                Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nAdmission status: " + admitted[i] + ",\nVisit count: " + visitCount[i] + ",\ntotal billing amount: " + billingAmount[i] + ",\nAssigned doctor: " + assignedDoctors[i] + ",\nAdmitted since: " + lastVisitDate[i]);
+                Count++;
+                maxBilling = Math.Max(maxBilling, billingAmount[i]); // to track the running maximum
+                Console.WriteLine("Patient name: " + patientNames[i] + ",\nPatient ID: " + patientIDs[i] + ",\nDiagnosis: " + diagnoses[i] + ",\nDepartment: " + departments[i] + ",\nAdmission status: " + admitted[i] + ",\nVisit count: " + visitCount[i] + ",\ntotal billing amount: " + billingAmount[i] + ",\nAssigned doctor: " + assignedDoctors[i] + ",\nAdmitted since: " + lastVisitDate[i].ToString("yyyy-MM-dd HH:mm"));
             }
 
             Console.WriteLine("==================================================");
@@ -539,19 +476,28 @@
         // case 6: transfer patient to another doctor 
         static public void TransferPatient(string currentDoctor, string newDoctor)
         {
-            currentDoctor = currentDoctor.Replace("Dr ", "Dr. ");
-            newDoctor = newDoctor.Replace("Dr ", "Dr. ");
+            currentDoctor = currentDoctor.Trim();
+            newDoctor = newDoctor.Trim();
+
+            // check if new doctor exists in the system
+            int newDocIndex = doctorNames.FindIndex(d => d.Trim().Equals(newDoctor.Trim(), StringComparison.OrdinalIgnoreCase));
+
+            if (newDocIndex == -1)
+            {
+                Console.WriteLine("New doctor not found!");
+                return;
+            }
 
             bool doctorFound = false;
             bool admittedPatientFound = false;
 
-            for (int i = 0; i <= PatientIndex; i++)
+            for (int i = 0; i < patientNames.Count; i++)
             {
-                if (assignedDoctors[i] == currentDoctor) // find current Doctor 
+                if (assignedDoctors[i].Trim().Equals(currentDoctor.Trim(), StringComparison.OrdinalIgnoreCase)) // find current Doctor 
                 {
                     doctorFound = true;
 
-                    if (admitted[i] == true)
+                    if (admitted[i])
                     {
                         admittedPatientFound = true;
 
@@ -590,7 +536,7 @@
         {
             for (int visit = 100; visit >= 0; visit--) // to display patients in descending order of visit count
             {
-                for (int i = 0; i <= PatientIndex; i++)
+                for (int i = 0; i < patientNames.Count; i++)
                 {
                     if (visitCount[i] == visit) // to display all patients with the same visit count together
                     {
@@ -605,9 +551,10 @@
         static public void SearchPatientsByDepartment(string department)
         {
             bool patFound = false;
-            for (int i = 0; i <= PatientIndex; i++)
+            string dep = department.Trim().ToLower();
+            for (int i = 0; i < patientNames.Count; i++)
             {
-                if (departments[i] != null && departments[i].ToLower().Contains(department.ToLower()))
+                if (!string.IsNullOrEmpty(departments[i]) && departments[i].ToLower().Contains(dep))
                 {
                     patFound = true;
 
@@ -659,8 +606,6 @@
                         Console.WriteLine("Invalid choice. Please enter 1 or 2.");
                     }
                 }
-
-                Console.WriteLine("Invalid choice.");
             }
         }
 
@@ -678,7 +623,7 @@
                 double maxIndividualBilling = 0;
                 double minIndividualBilling = double.MaxValue;
 
-                for (int i = 0; i <= PatientIndex; i++)
+                for (int i = 0; i < patientNames.Count; i++)
                 {
 
                     TotalAmount += billingAmount[i];
@@ -721,16 +666,16 @@
                     double finalAmount = billingAmount[index] - discountAmount; // Calculate the final amount after applying the discount
                     finalAmount = Math.Round(finalAmount, 2); // Round the final amount to 2 decimal places
 
-                    Console.WriteLine("Discount applied: " + randomDiscount + "% - Amount after discount: "+ finalAmount + " OMR"); // Display the random invoice number
+                    Console.WriteLine("Discount applied: " + randomDiscount + "% - Amount after discount: " + finalAmount + " OMR"); // Display the random invoice number
                 }
 
                 else
 
-                { 
+                {
                     Console.WriteLine("Patient not found.");
                 }
             }
-      
+
         }
 
         // case 10: exit program
@@ -756,40 +701,34 @@
         // case 11: add doctor
         static public void AddDoctor()
         {
-            lastDoctorIndex++;
-
             Console.WriteLine("Enter doctor full name: ");
-            doctorNames[lastDoctorIndex] = Console.ReadLine().Trim().ToUpper();
+            string name = (Console.ReadLine() ?? string.Empty).Trim();
 
-            while (string.IsNullOrEmpty(doctorNames[lastDoctorIndex]))
+            // check if doctor already exists in the system 
+            for (int i = 0; i < doctorNames.Count; i++)
             {
-                Console.WriteLine("Doctor name cannot be empty. Please enter again:");
-                doctorNames[lastDoctorIndex] = (Console.ReadLine() ?? string.Empty).Trim();
-            }
-
-            for(int i = 0; i < lastDoctorIndex; i++)
-            {
-                if (doctorNames[i].ToLower() == (doctorNames[lastDoctorIndex].ToLower()))
+                if (doctorNames[i].ToLower() == name.ToLower())
                 {
                     Console.WriteLine("Doctor already exists. Registration cancelled.");
-                    lastDoctorIndex--; // revert index increment
                     return;
                 }
             }
 
-            doctorNames[lastDoctorIndex] = doctorNames[lastDoctorIndex].Substring(0, 1).ToUpper() + doctorNames[lastDoctorIndex].Substring(1);
+            // format doctor name to have first letter capitalized and the rest in lowercase for consistency
+            name = char.ToUpper(name[0]) + name.Substring(1).ToLower();
+            doctorNames.Add(name);
 
             Console.WriteLine("Enter available slots for this doctor: ");
             int slots;
 
-            while (!int.TryParse(Console.ReadLine() ?? string.Empty, out slots) || slots < 1 || slots > 50)
+            while (!int.TryParse(Console.ReadLine(), out slots) || slots < 1 || slots > 50)
             {
-                Console.WriteLine("Invalid slot count. Doctor not registered.");
+                Console.WriteLine("Invalid input. Enter slots between 1 and 50: ");
             }
 
-            doctorAvailableSlots[lastDoctorIndex] = slots;
-            doctorVisitCount[lastDoctorIndex] = 0;
-            Console.WriteLine("Doctor: " + doctorNames[lastDoctorIndex] + ", added successfully with available slots : " + doctorAvailableSlots[lastDoctorIndex]);
+            doctorAvailableSlots.Add(slots);
+            doctorVisitCount.Add(0);
+            Console.WriteLine("Doctor: " + name + ", added successfully with available slots : " + slots);
         }
 
         // case 12: doctor salary report
@@ -802,7 +741,8 @@
             string DoctorName = "";
             const double BASE_SALARY = 300; // base salary for all doctors
             const double BONUS_PER_VISIT = 15; // bonus amount added to salary for each patient assigned
-            for (int i = 0; i <= lastDoctorIndex; i++)
+
+            for (int i = 0; i < doctorNames.Count; i++)
             {
                 double salary = Math.Round(BASE_SALARY + (doctorVisitCount[i] * BONUS_PER_VISIT), 2);
 
@@ -818,7 +758,7 @@
 
             }
 
-                Console.WriteLine("=============================================================");
+            Console.WriteLine("=============================================================");
             Console.WriteLine("Highest earning doctor: " + DoctorName + "-" + maxSalary + " OMR");
 
         }
@@ -840,10 +780,10 @@
                 {
                     case 1:
 
-                       string PID = RegisterNewPatient();
+                        string PID = RegisterNewPatient();
 
-                       Console.WriteLine("Patient registered successfully with ID: " + PID);
-                          
+                        Console.WriteLine("Patient registered successfully with ID: " + PID);
+
                         break;
 
                     case 2:
@@ -912,13 +852,13 @@
 
                         break;
 
-                     case 9:
+                    case 9:
 
                         BillingReport();
 
                         break;
 
-                    case 10: 
+                    case 10:
 
                         exit = ExitProgram();
 
@@ -953,3 +893,5 @@
         }
     }
 }
+
+
